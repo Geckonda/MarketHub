@@ -1,5 +1,5 @@
 using MarketHub.Domain.ViewModels;
-using MarketHub.Models;
+using MarketHub.Sellers.Models;
 using MarketHub.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;

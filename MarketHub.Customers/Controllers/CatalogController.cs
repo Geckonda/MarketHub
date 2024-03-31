@@ -1,4 +1,4 @@
-using MarketHub.Models;
+using MarketHub.Customers.Models;
 using MarketHub.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
