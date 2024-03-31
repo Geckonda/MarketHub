@@ -1,0 +1,222 @@
+:root {
+    --main-blue: #122D5C;
+}
+
+@font-face {
+    font-family: "AbhayaLibre-SemiBold";
+    src: url("../fonts/AbhayaLibre/AbhayaLibre-SemiBold.ttf")
+}
+
+@font-face {
+    font-family: "Gabriela";
+    src: url("../fonts/Gabriela/Gabriela-Regular.ttf")
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf")
+}
+
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+header {
+    background: var(--main-blue);
+    height: 101px;
+    font-family: "AbhayaLibre-SemiBold";
+}
+
+.logo {
+    font-weight: 600;
+    font-size: 48px;
+}
+
+.container {
+    max-width: 1570px;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.catalog__banner {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+@media (max-width: 1500px) {
+    .banner {
+        display: none;
+    }
+}
+
+.banner {
+    width: 100%;
+}
+
+.banner__body {
+    width: 100%;
+    position: relative;
+    background: #f9f9f9;
+}
+
+.banner__square {
+}
+
+.square {
+    background: var(--main-blue);
+    width: 345px;
+    height: 588px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.square__text {
+    transform: rotate(-90deg);
+    color: #fff;
+    font-weight: 300;
+    font-size: 32px;
+    text-transform: uppercase;
+    position: absolute;
+    left: -80px;
+}
+
+.square__line {
+    width: 75px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    transform: rotate(-90deg);
+    left: 40px;
+}
+
+    .square__line:first-child {
+        bottom: 35px;
+    }
+
+    .square__line:last-child {
+        top: 35px;
+    }
+
+
+.banner__male {
+    position: absolute;
+    top: 70px;
+    left: 150px;
+    z-index: 3;
+}
+
+.banner__female {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 3;
+}
+
+.banner__card {
+    position: absolute;
+    width: 580px;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 50%;
+    left: 55%;
+}
+
+.banner__title {
+    font-family: "AbhayaLibre-SemiBold";
+    font-size: 96px;
+}
+
+.banner__text {
+    font-family: "Gabriela";
+    font-size: 32px;
+}
+
+.banner__btn {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    font-size: 32px;
+    font-family: "Gabriela";
+    padding: 10px 50px;
+    border: 2px solid #353535;
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+.banner__run-line {
+    font-family: "AbhayaLibre-SemiBold";
+    position: absolute;
+    font-size: 128px;
+    color: #CDE0ED;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+    .banner__run-line:first-child {
+        top: -50px;
+        right: 0px;
+        z-index: 0;
+    }
+
+    .banner__run-line:last-child {
+        bottom: -60px;
+        right: 90px;
+        z-index: 0;
+    }
+
+/*Добавление цвета товара*/
+#form-container {
+    width: 500px;
+    margin: 0px auto;
+    background: #ccc;
+}
+
+#size-btn, .file-label {
+    color: #e91e63;
+    border: .2em solid #e91e63;
+    border-radius: 2em;
+    padding: .85em 1.5em;
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.file-input {
+    display: none;
+}
+
+.input_active {
+    color: #fff;
+    background: #e91e63;
+}

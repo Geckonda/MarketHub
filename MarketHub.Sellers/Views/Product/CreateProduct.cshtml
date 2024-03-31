@@ -1,0 +1,67 @@
+﻿@model ProductViewModel
+
+
+<form autocomplete="on" method="post" asp-controller="Product" asp-action="CreateProduct" enctype="multipart/form-data">
+
+    <div class="row mb-3">
+        <label asp-for="SubcategoryId" class="col-md-4 col-form-label text-md-end">Подкатегория товара</label>
+        <div class="col-md-6">
+            <select class="form-select" asp-for="SubcategoryId">
+                    @foreach (var subcategy in Model.Subcategories!)
+                    {
+                    <option value="@subcategy.Id">@subcategy.Name</option>
+                    }
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label asp-for="Name" class="col-md-4 col-form-label text-md-end">Название товара</label>
+        <div class="col-md-6">
+            <input asp-for="Name" type="text" class="form-control" name="Name" required autocomplete="Name" autofocus>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label asp-for="Color" class="col-md-4 col-form-label text-md-end">Цвет товара</label>
+        <div class="col-md-6">
+            <input asp-for="Color" type="text" class="form-control" name="Color" required autocomplete="Color">
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label asp-for="Description" class="col-md-4 col-form-label text-md-end">Описание товара</label>
+        <div class="col-md-6">
+            <input asp-for="Description" type="text" class="form-control" name="Description" required autocomplete="Description">
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label asp-for="Price" class="col-md-4 col-form-label text-md-end">Цена товара</label>
+        <div class="col-md-6">
+            <input asp-for="Price" type="number" class="form-control" name="Price" required autocomplete="Price">
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label asp-for="CoverImage" class="col-md-4 col-form-label text-md-end">Картинка товара</label>
+        <div class="col-md-6">
+            <input asp-for="CoverImage" type="file" class="form-control" name="CoverImage" accept="image/*">
+            <span asp-validation-for="CoverImage" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3" id="form-container">
+        <div id="size-btn" id="">Добавить размер</div>
+        <div class="input-container">
+            <input id="size-name-1" type="text" name="sizeNames" placeholder="Размер" />
+            <input id="size-amount-1" type="number" name="sizeAmount" min="1" placeholder="Количество товара данного размера"/>
+
+@*             <label for="color-input-f1" id="color-label-l1" class="file-label">Загрузить фото</label>
+            <input id="color-input-f1" type="file" class="form-control file-input" name="colors" accept="image/*"> *@
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>
+@section Scripts {
+
+    <script src="~/js/Products/form.js"></script>
+}
