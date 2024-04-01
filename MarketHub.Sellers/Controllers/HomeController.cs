@@ -20,6 +20,8 @@ namespace MarketHub.Controllers
 
 		public async Task<IActionResult> Index()
 		{
+			if(!User.Identity!.IsAuthenticated)
+				return RedirectToAction("Login", "Account");
 			var response = await _categoryService.GetCategories();
 			if(response.StatusCode == Domain.Enums.StatusCode.Ok)
 			{
@@ -29,11 +31,6 @@ namespace MarketHub.Controllers
             }
             return RedirectToAction("Error");
         }
-
-		public IActionResult Privacy()
-		{
-			return View();
-		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()

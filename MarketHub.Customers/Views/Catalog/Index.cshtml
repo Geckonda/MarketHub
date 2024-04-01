@@ -1,4 +1,4 @@
-﻿@model List<CatalogViewModel>;
+﻿@model CatalogViewModel;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -26,20 +26,31 @@
     </div>
 </div>
 
-
-<div class="container d-flex flex-wrap gap-4">
-    @foreach (var product in Model)
+<div class="container">
+    @foreach (var category in Model.Categories)
     {
-        <div class="card" style="width: 18rem;">
-            <img src="@product.Img" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">@product.Name</h5>
-                <p class="card-text">@product.Description</p>
-                <p class="card-text">@product.Price</p>
-                <a href="#" class="btn btn-primary">Подробнее</a>
-                <p class="card-text">@product.Seller!.Name</p>
-            </div>
+        <h2>@category.Name</h2>
+        <div class="container d-flex flex-wrap gap-4">
+            @foreach (var product in Model.Products)
+            {
+                @if (category.Subcategories.Contains(product.Subcategory))
+                {
+                    <div class="card" style="width: 18rem;">
+                        <img src="@product.Img" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p class="card-text">@product.Price</p>
+                            <a asp-action="GetProduct" asp-controller="Product" asp-route-id="@product.Id" class="btn btn-primary">Подробнее</a>
+                            <p class="card-text">@product.Seller!.Name</p>
+                            <p class="card-text">@product.Subcategory.Name</p>
+                        </div>
+                    </div>
+                }
+            }
         </div>
+
     }
+
 
 </div>

@@ -1,4 +1,6 @@
-﻿using MarketHub.DAL.Repositories;
+﻿using MarketHub.Customers.Service.Implementations;
+using MarketHub.Customers.Service.Interfaces;
+using MarketHub.DAL.Repositories;
 using MarketHub.Domain.Abstractions.Repository;
 using MarketHub.Domain.Entities;
 using MarketHub.Service.Implementations;
@@ -12,11 +14,13 @@ namespace MarketHub
         {
             services.AddScoped<IBaseRepository<CustomerEntity>, CustomersRepository>();
             services.AddScoped<IBaseRepository<ProductEntity>, ProductsRepository>();
+            services.AddScoped<IBaseRepository<CategoryEntity>, CategoriesRepository>();
         }
         public static void InitialiseServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICatalogService, CatalogService>();
+            services.AddScoped<IProductService, ProductService>();
         }
     }
 }

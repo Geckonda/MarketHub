@@ -20,7 +20,7 @@ namespace MarketHub.Controllers
         {
             var response = await _catalogService.GetCatalog();
             if(response.StatusCode == Domain.Enums.StatusCode.Ok)
-                return View(response.Data!.ToList());
+                return View(response.Data!);
             return RedirectToAction("Error");
         }
 

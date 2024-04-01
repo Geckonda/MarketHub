@@ -16,51 +16,52 @@ namespace MarketHub.Service.Implementations
     public class CatalogService : ICatalogService
     {
         private readonly IBaseRepository<ProductEntity> _productsRepository;
-        public CatalogService(IBaseRepository<ProductEntity> productsRepository)
+        private readonly IBaseRepository<CategoryEntity> _categoryRepository;
+        public CatalogService(IBaseRepository<ProductEntity> productsRepository,
+            IBaseRepository<CategoryEntity> categoryRepository)
         {
             _productsRepository = productsRepository;
+            _categoryRepository = categoryRepository;
         }
-        public async Task<IBaseResponse<List<CatalogViewModel>>> GetCatalog()
+        public async Task<IBaseResponse<CatalogViewModel>> GetCatalog()
         {
-            var baseResponse = new BaseResponse<List<CatalogViewModel>>();
+            var baseResponse = new BaseResponse<CatalogViewModel>();
             try
             {
-                var products = _productsRepository.GetAll().Result!.Take(4);
-                var data = new List<CatalogViewModel>();
-                foreach (var product in products)
-                {
-                    var model = GetModelFromProduct(product);
-                    data.Add(model);
-                }
+                var data = new CatalogViewModel();
+                var products = await _productsRepository.GetAll();
+                var categories = await _categoryRepository.GetAll();
+                data.Products = products!.OrderBy(x => Guid.NewGuid()).Take(8).ToList();
+                data.Categories = categories!;
                 baseResponse.Data = data;
                 baseResponse.StatusCode = StatusCode.Ok;
                 return baseResponse;
             }
             catch (Exception ex)
             {
-                return new BaseResponse<List<CatalogViewModel>>()
+                return new BaseResponse<CatalogViewModel>()
                 {
-                    Description = $"[BookService | CreateBook]: {ex.Message}",
+                    Description = $"[ICatalogService | GetCatalog]: {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
                     ErrorForUser = "Не удалось добавить книгу"
                 };
             }
         }
-        private static CatalogViewModel GetModelFromProduct(ProductEntity product)
-        {
-            return new CatalogViewModel()
-            {
-                Id = product.Id,
-                Seller = product.Seller,
-                Reviews = product.Reviews,
-                Subcategory = product.Subcategory,
-                Color = product.Color,
-                Sizes = product.Sizes,
-                Amount = product.Amount,
-                Img = product.Img,
-                Description = product.Description,
-                Price = product.Price,
-            };
-        }
+        //private static CatalogViewModel GetModelFromProduct(ProductEntity product)
+        //{
+        //    return new CatalogViewModel()
+        //    {
+        //        Id = product.Id,
+        //        Seller = product.Seller,
+        //        Reviews = product.Reviews,
+        //        Subcategory = product.Subcategory,
+        //        Color = product.Color,
+        //        Sizes = product.Sizes,
+        //        Amount = product.Amount,
+        //        Img = product.Img,
+        //        Description = product.Description,
+        //        Price = product.Price,
+        //    };
+        //}
     }
 }

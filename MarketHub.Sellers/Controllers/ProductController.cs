@@ -2,11 +2,13 @@
 using MarketHub.Domain.Helpers;
 using MarketHub.Domain.ViewModels;
 using MarketHub.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketHub.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;

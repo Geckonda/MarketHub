@@ -13,6 +13,6 @@ namespace MarketHub.Service.Interfaces
 {
     public interface ICatalogService
     {
-        Task<IBaseResponse<List<CatalogViewModel>>> GetCatalog();
+        Task<IBaseResponse<CatalogViewModel>> GetCatalog();
     }
 }
