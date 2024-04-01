@@ -1,11 +1,12 @@
 ﻿@model CatalogViewModel;
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "MarketHub";
 }
 @section Styles{
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Catalog/style.css" asp-append-version="true" />
 }
 <div class="container banner catalog__banner">
     <div class="banner__body">
@@ -29,28 +30,23 @@
 <div class="container">
     @foreach (var category in Model.Categories)
     {
-        <h2>@category.Name</h2>
-        <div class="container d-flex flex-wrap gap-4">
-            @foreach (var product in Model.Products)
-            {
-                @if (category.Subcategories.Contains(product.Subcategory))
+        <div class="catagories-container">
+            <h2>@category.Name ></h2>
+            <div class="container d-flex flex-wrap gap-4">
+                @foreach (var product in Model.Products)
                 {
-                    <div class="card" style="width: 18rem;">
-                        <img src="@product.Img" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">@product.Description</p>
-                            <p class="card-text">@product.Price</p>
-                            <a asp-action="GetProduct" asp-controller="Product" asp-route-id="@product.Id" class="btn btn-primary">Подробнее</a>
-                            <p class="card-text">@product.Seller!.Name</p>
-                            <p class="card-text">@product.Subcategory.Name</p>
-                        </div>
-                    </div>
+                    @if (category.Subcategories.Contains(product.Subcategory!))
+                    {
+                        <a asp-action="GetProduct" asp-controller="Product" asp-route-id="@product.Id" class="product-card">
+                            <img src="@product.Img" class="product-card__img" alt="@product.Name">
+                            <div class="product-card__body">
+                                <h5 class="product-card__title">@product.Name</h5>
+                                <p class="product-card__text">@product.Price₽</p>
+                            </div>
+                        </a>
+                    }
                 }
-            }
+            </div>
         </div>
-
     }
-
-
 </div>

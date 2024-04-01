@@ -194,3 +194,11 @@ header {
         right: 90px;
         z-index: 0;
     }
+
+.catagories-container {
+    margin-bottom: 24px;
+}
+
+    .catagories-container h2 {
+        margin-bottom: 16px;
+    }

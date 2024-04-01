@@ -35,6 +35,7 @@ namespace MarketHub.DAL.Repositories
         {
             return await _db.Products
                 .Include(x => x.Subcategory)
+                    .ThenInclude(x => x.Category)
                 .Include(x => x.Seller)
                 .Include(x => x.Orders)
                 .Include(x => x.Baskets)
@@ -49,6 +50,7 @@ namespace MarketHub.DAL.Repositories
             return await _db.Products
                 .Where (x => x.Id == id)
                 .Include(x => x.Subcategory)
+                    .ThenInclude(x => x.Category)
                 .Include(x => x.Seller)
                 .Include(x => x.Orders)
                 .Include(x => x.Baskets)
