@@ -14,8 +14,11 @@
         <li class="breadcrumb-item">
             <a asp-action="Index" asp-controller="Catalog">@Model.Subcategory!.Category!.Name</a>
         </li>
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Catalog">@Model.Subcategory!.Name</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">
-            @Model.Subcategory!.Name
+            @Model.Name
         </li>
     </ol>
 </nav>

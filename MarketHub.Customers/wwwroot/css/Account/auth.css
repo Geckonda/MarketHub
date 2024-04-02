@@ -1,0 +1,62 @@
+﻿@font-face {
+    font-family: "Inter";
+    src: url("../../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf")
+}
+
+.login-box {
+    font-family: "Inter";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+}
+
+.login-box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #000;
+    text-align: center;
+}
+
+.login-box .user-box {
+    position: relative;
+}
+
+.login-box .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+}
+
+.login-box .user-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box :empty ~ label {
+    top: -20px;
+    left: 0;
+    color: #aeaeae;
+    font-size: 12px;
+}
+.login-box button{
+    background: #122D5C;
+    color: #fff;
+    border-radius: 50px;
+    font-size: 32px;
+    width: 100%;
+}
