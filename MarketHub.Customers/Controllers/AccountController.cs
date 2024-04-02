@@ -18,6 +18,8 @@ namespace MarketHub.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Catalog");
             return View();
         }
         [HttpPost]
@@ -40,6 +42,8 @@ namespace MarketHub.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Catalog");
             return View();
         }
         [HttpPost]
