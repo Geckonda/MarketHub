@@ -32,7 +32,7 @@
     {
         <div class="catagories-container">
             <h2>@category.Name ></h2>
-            <div class="container d-flex flex-wrap gap-4">
+            <div class="d-flex flex-wrap gap-4">
                 @foreach (var product in Model.Products)
                 {
                     @if (category.Subcategories.Contains(product.Subcategory!))

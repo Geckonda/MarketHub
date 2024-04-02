@@ -1,11 +1,10 @@
-﻿
-a {
+﻿a {
     text-decoration: none;
     color: #000;
 }
 .product-card{
-   width: 363px;
-   height: 528px;
+   width: 355px;
+   min-height: 528px;
    padding: 10px 16px;
    border-radius: 10px;
    background: #f4f4f4;

@@ -68,8 +68,22 @@
 .product__size-icon_active{
    border: 2px solid #000;
 }
-.product__panel{
-   grid-area: panel;
+.product__size-icon_absent{
+    color: #aeaeae;
+    background: #F2F2F2;
+    position: relative;
+}
+.product__size-icon_absent::before{
+    content: '';
+    display:block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(0 2%, 2% 0%, 100% 98%, 98% 100%);
+    background: #000;
+}
+.product__panel {
+    grid-area: panel;
 }
 .product__operation {
    border: 1px solid #aeaeae;

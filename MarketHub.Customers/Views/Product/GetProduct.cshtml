@@ -27,11 +27,11 @@
         <div class="product__info info">
             <h3 class="product__name"> @Model.Name</h3>
             <p class="product__color">Цвет: <b id="color">@Model.Color</b></p>
-            <p class="product__size">Размер: <b id="size">@Model.Sizes.OrderBy(s => s.Name).FirstOrDefault()!.Name</b></p>
+            <p class="product__size">Размер: <b id="size"></b></p>
             <div class="product__size-container">
                 @foreach(var size in Model.Sizes.OrderBy(s => s.Name))
                 {
-                    <div class="product__size-icon">@size.Name</div>
+                    <div class="product__size-icon" data-size-amount="@size.Amount">@size.Name</div>
                 }
             </div>
         </div>
