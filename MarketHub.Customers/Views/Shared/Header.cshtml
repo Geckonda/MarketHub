@@ -1,6 +1,6 @@
 ﻿<header>
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark menu">
             <div class="container-fluid">
                 <a class="navbar-brand logo d-flex align-items-center" asp-area="" asp-controller="Catalog" asp-action="Index"><img src="~/img/logo.png" alt="Alternate Text" style="margin-right:27px;" />MarketHub</a>
                 
@@ -17,27 +17,32 @@
                             </li> *@
                         }
                     </ul>
-                    <div class="d-flex">
-                        <a class="nav-link active"><img src="~/img/icons/профиль.png" alt="Alternate Text" /></a>
-                        <a class="nav-link active"><img src="~/img/icons/заказы.png" alt="Alternate Text" /></a>
-                        <a class="nav-link active"><img src="~/img/icons/корзина.png" alt="Alternate Text" /></a>
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                           @*  <a class="nav-link active" asp-controller="Account" asp-action="Login">Авторизация</a>
-                            <a class="nav-link active" asp-controller="Account" asp-action="Register">Регистрация</a> *@
-                        }
-
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <a class="nav-link active" href="#">Админ панель</a>
-                            }
-                            <a class="nav-link active">@User.FindFirst("email")!.Value</a>
-                            <form method="post" asp-controller="Account" asp-action="Logout">
-                                <input class="nav-link active" type="submit" value="Выход" />
-                            </form>
-                        }
+                    <div class="d-flex menu__list">
+                        <li class="menu__link">
+                            <a class="nav-link active" asp-controller="Account" asp-action="Login"><img src="~/img/icons/профиль.png" alt="Alternate Text" /></a>
+                            <ul class="sub-menu__list">
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <li><a class="sub-menu__link" asp-controller="Account" asp-action="Login">Авторизация</a></li>
+                                    <li><a class="sub-menu__link" asp-controller="Account" asp-action="Register">Регистрация</a></li>
+                                }
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li><a class="sub-menu__link" asp-controller="" asp-action="">@User.FindFirst("email")!.Value</a></li>
+                                    <li>
+                                        <form method="post" asp-controller="Account" asp-action="Logout">
+                                            <input class="sub-menu__link" type="submit" value="Выход" />
+                                        </form>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="menu__link">
+                            <a class="nav-link active"><img src="~/img/icons/заказы.png" alt="Alternate Text" /></a>
+                        </li>
+                        <li class="menu__link">
+                            <a class="nav-link active"><img src="~/img/icons/корзина.png" alt="Alternate Text" /></a>
+                        </li>
                     </div>
                 </div>
             </div>
