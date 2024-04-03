@@ -1,6 +1,9 @@
 ﻿@model ProductViewModel
 @{
     ViewData["Title"] = Model.Name + " - MarketHub";
+    float mark = 0;
+    if(Model.Reviews.Count  != 0)
+        mark = Model.Reviews.Select(x => x.Stars).Average();
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/Products/GetProduct.css" asp-append-version="true" />
@@ -29,6 +32,19 @@
         </div>
         <div class="product__info info">
             <h3 class="product__name"> @Model.Name</h3>
+            <div class="review-info">
+                <div class="review-info__stars-block">
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <span class="star-value">@mark.ToString("0.0")</span>
+                </div>
+                <div class="review-info__amount">
+                    Отзывов: @Model.Reviews.Count 
+                </div>
+            </div>
             <p class="product__color">Цвет: <b id="color">@Model.Color</b></p>
             <p class="product__size">Размер: <b id="size"></b></p>
             <div class="product__size-container">
@@ -56,7 +72,9 @@
         <div class="product__reviews reviews">
             <h4 class="reviews__title">Отзывы</h4>
             <div class="reviews__column">
-                <div class="review"></div>
+                <div class="review">
+                    
+                </div>
             </div>
         </div>
     </div>

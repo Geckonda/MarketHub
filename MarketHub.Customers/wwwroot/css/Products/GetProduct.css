@@ -22,10 +22,10 @@
 }
 .product__table {
    display: grid;
-   justify-content: space-between;
+   grid-template-columns: max-content 1fr 1fr;
    grid-template-areas:
     "img info panel"
-    "description description ."
+    "img description description "
      "reviews reviews reviews";
 }
 .product__img {
@@ -37,11 +37,37 @@
 }
 .product__info {
    grid-area: info;
+   padding: 0px 40px;
 }
 .info {
 }
 .product__name {
    font-size: 32px;
+   margin-bottom: 1rem;
+}
+.review-info{
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 1rem;
+   font-size: 20px;
+}
+.review-info__stars-block{
+   display: flex;
+}
+.star{
+   width: 25px;
+   height: 25px;
+   background: #aeaeae;
+   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+.star_active{
+   background: #E6AD1B;
+}
+.star-value{
+   margin-left: 10px;
+}
+.review-info__amount{
+
 }
 .product__color {
    font-size: 20px;
@@ -84,6 +110,10 @@
 }
 .product__panel {
     grid-area: panel;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
 }
 .product__operation {
    border: 1px solid #aeaeae;
@@ -125,7 +155,6 @@
    display: flex;
    text-align: center;
    padding: 20px 25px;
-   margin-top: 32px;
 }
 .product__seller img{
    width: 48px;
@@ -134,7 +163,7 @@
 }
 .product__description {
    grid-area: description;
-   margin-top: 24px;
+   padding: 0px 0 0 40px;
 }
 .description {
 }
@@ -142,13 +171,14 @@
    font-size: 32px;
 }
 .description__text {
-   font-size: 24px;
+   font-size: 20px;
    text-align: justify;
 }
 .product__reviews {
    grid-area: reviews;
 }
 .reviews {
+   margin-top: 20px;
 }
 .reviews__title {
    font-size: 32px;

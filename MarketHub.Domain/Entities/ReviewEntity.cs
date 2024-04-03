@@ -12,7 +12,7 @@ namespace MarketHub.Domain.Entities
         public int CustomerId { get; set; }
         public int ProductId { get; set; }
         public string Text { get; set; } = string.Empty;
-        public float Stars { get; set; }
+        public float Stars { get; set; } = 0;
         public DateTime Date { get; set; }
 
         public CustomerEntity? Customer { get; set; }
