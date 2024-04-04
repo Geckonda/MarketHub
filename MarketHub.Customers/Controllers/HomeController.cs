@@ -1,4 +1,6 @@
 using MarketHub.Customers.Models;
+using MarketHub.Service.Implementations;
+using MarketHub.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,20 +9,20 @@ namespace MarketHub.Customers.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICatalogService _catalogService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            ICatalogService catalogService)
         {
             _logger = logger;
+            _catalogService = catalogService;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            var response = await _catalogService.GetCatalog();
+            if (response.StatusCode == Domain.Enums.StatusCode.Ok)
+                return View(response.Data!);
+            return RedirectToAction("Error");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
