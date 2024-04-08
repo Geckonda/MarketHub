@@ -33,16 +33,16 @@
         <div class="product__info info">
             <h3 class="product__name"> @Model.Name</h3>
             <div class="review-info">
-                <div class="review-info__stars-block">
+                <div class="review-info__stars-block main-mark">
                     <div class="star"></div>
                     <div class="star"></div>
                     <div class="star"></div>
                     <div class="star"></div>
                     <div class="star"></div>
-                    <span class="star-value">@mark.ToString("0.0")</span>
+                    <span class="star-value" id="main-mark">@mark.ToString("0.0")</span>
                 </div>
                 <div class="review-info__amount">
-                    Отзывов: @Model.Reviews.Count 
+                    <a href="#customer-reviews">Отзывов: @Model.Reviews.Count</a>
                 </div>
             </div>
             <p class="product__color">Цвет: <b id="color">@Model.Color</b></p>
@@ -72,8 +72,54 @@
         <div class="product__reviews reviews">
             <h4 class="reviews__title">Отзывы</h4>
             <div class="reviews__column">
-                <div class="review">
-                    
+                @if (!User.Identity!.IsAuthenticated)
+                {
+                    <p>Иди авторизируйся</p>
+                }
+                else
+                {
+                    <div class="review">
+                        <div class="review__header">
+                            <h5 class="review__title">Напишите свой отзыв!</h5>
+                            <div class="review-info__stars-block star-label-block">
+                                <div class="star star-label" data-pos="5"></div>
+                                <div class="star star-label" data-pos="4"></div>
+                                <div class="star star-label" data-pos="3"></div>
+                                <div class="star star-label" data-pos="2"></div>
+                                <div class="star star-label" data-pos="1"></div>
+                            </div>
+                        </div>
+                        <textarea class="review__input" id="review__value" placeholder="Напишите отзыв" maxlength="1000"></textarea>
+                        <button class="review__send" id="review__send-btn" data-productId = "@Model.Id" data-customerId="@User.FindFirst("userId").Value" disabled>Отправить</button>
+                    </div>
+                }
+                <div id="customer-reviews">
+                @foreach(var review in Model.Reviews.Take(5).ToList())
+                {
+                    <div class="review">
+                        <div class="review__header">
+                            <h5 class="review__customer-name">@review.Customer!.Name</h5>
+                            <div class="review-info__stars-block">
+                            @for (int i = 0, j = 1; i < 5; i++)
+                            {
+                                if(j++ <= (int)review.Stars)
+                                    { <div class="star star_active"></div> }
+                                else{<div class="star"></div>}
+                            }
+                            </div>
+                        </div>
+                        <p class="review__date">@review.Date.ToString("D")</p>
+                        <p class="review__text">@review.Text</p>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @if(User.FindFirst("userId").Value == review.Customer.Id.ToString())
+                                {
+                                    <a class="btn btn-success" href="#">Редактировать</a>
+                                    <a class="btn btn-danger" href="#">Удалить</a>
+                                }
+                            }
+                    </div>
+                }
                 </div>
             </div>
         </div>
@@ -81,4 +127,5 @@
 </div>
 @section Scripts {
     <script src="~/js/Product/size.js"></script>
+    <script src="~/js/Product/review.js"></script>
 }

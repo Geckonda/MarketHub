@@ -15,12 +15,15 @@ namespace MarketHub
             services.AddScoped<IBaseRepository<CustomerEntity>, CustomersRepository>();
             services.AddScoped<IBaseRepository<ProductEntity>, ProductsRepository>();
             services.AddScoped<IBaseRepository<CategoryEntity>, CategoriesRepository>();
+            services.AddScoped<IBaseRepository<ReviewEntity>, ReviewsRepository>();
+
         }
         public static void InitialiseServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICatalogService, CatalogService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IReviewService, ReviewService>();
         }
     }
 }

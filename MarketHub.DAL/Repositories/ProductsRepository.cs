@@ -40,6 +40,7 @@ namespace MarketHub.DAL.Repositories
                 .Include(x => x.Orders)
                 .Include(x => x.Baskets)
                 .Include(x => x.Reviews)
+                    .ThenInclude(x => x.Customer)
                 //.Include(x => x.Colors)
                 .Include(x => x.Sizes)
                 .ToListAsync();
@@ -55,6 +56,7 @@ namespace MarketHub.DAL.Repositories
                 .Include(x => x.Orders)
                 .Include(x => x.Baskets)
                 .Include(x => x.Reviews)
+                    .ThenInclude(x => x.Customer)
                 //.Include(x => x.Colors)
                 .Include(x => x.Sizes)
                 .FirstOrDefaultAsync();

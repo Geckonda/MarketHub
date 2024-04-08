@@ -2,6 +2,7 @@ using MarketHub;
 using MarketHub.DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,5 +44,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Catalog}/{action=Index}/{id?}");
+app.UseCors(x =>
+{
+    x.WithHeaders().AllowAnyHeader();
+    x.WithOrigins("https://0.0.0.0:5001").AllowAnyOrigin();
+    x.WithOrigins("https://localhost:5001").AllowAnyOrigin();
+    x.WithOrigins("https://192.168.31.97:5001").AllowAnyOrigin();
+    x.WithMethods().AllowAnyMethod();
+});
 
 app.Run();

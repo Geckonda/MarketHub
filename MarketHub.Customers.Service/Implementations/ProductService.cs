@@ -37,7 +37,9 @@ namespace MarketHub.Customers.Service.Implementations
                 Seller = entity.Seller,
                 Orders = entity.Orders,
                 Baskets = entity.Baskets,
-                Reviews = entity.Reviews,
+                Reviews = entity.Reviews
+                                .OrderByDescending(x => x.Date)
+                                .ToList(),
                 Sizes = entity.Sizes,
             };
         }
