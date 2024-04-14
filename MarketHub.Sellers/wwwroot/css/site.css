@@ -54,6 +54,7 @@ header {
     background: var(--main-blue);
     height: 101px;
     font-family: "AbhayaLibre-SemiBold";
+    margin-bottom: 50px;
 }
 main{
     flex: 1 1 auto;
@@ -206,29 +207,3 @@ main{
         right: 90px;
         z-index: 0;
     }
-
-/*Добавление цвета товара*/
-#form-container {
-    width: 500px;
-    margin: 0px auto;
-    background: #ccc;
-}
-
-#size-btn, .file-label {
-    color: #e91e63;
-    border: .2em solid #e91e63;
-    border-radius: 2em;
-    padding: .85em 1.5em;
-    width: 200px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.file-input {
-    display: none;
-}
-
-.input_active {
-    color: #fff;
-    background: #e91e63;
-}

@@ -2,11 +2,27 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+@section Styles{
 
+    <link rel="stylesheet" href="~/css/Home/home.css" asp-append-version="true" />
+}
 <div class="container">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categories-modal">
-        Добавить товар
-    </button>
+    <div class="admin-panel home__admin-panel">
+        <h1 class="admin-panel__title">Панель продавца</h1>
+        <div class="admin-panel__grid">
+            <button type="button" class="admin-panel__button" data-bs-toggle="modal" data-bs-target="#categories-modal">
+                Добавить товар
+            </button>
+            <button class="admin-panel__button">Новости</button>
+            <button class="admin-panel__button">Посмотреть свои товары</button>
+            <button class="admin-panel__button">Заказы</button>
+            <button class="admin-panel__button">Техническая поддержка</button>
+            <button class="admin-panel__button">Посмотреть</button>
+            <button class="admin-panel__button">Посмотреть</button>
+            <button class="admin-panel__button">Посмотреть</button>
+        </div>
+    </div>
+    
 
     <div class="modal fade" id="categories-modal" tabindex="-1" aria-labelledby="categories-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
