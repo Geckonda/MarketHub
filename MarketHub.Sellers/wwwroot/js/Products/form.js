@@ -1,6 +1,6 @@
 ﻿const form = document.querySelector("#form-container");
 const btn = document.querySelector("#size-btn");
-
+const submit = document.getElementById("submit");
 let count = 1;
 
 const tableBody = document.querySelector(".sizes-table tbody");
@@ -58,6 +58,7 @@ btn.addEventListener("click", () => {
         count++;
         sizeNameInp.value = "";
         sizeAmountInp.value = "";
+        submit.disabled = false;
     }
 });
 
@@ -70,6 +71,16 @@ tableBody.addEventListener("click", (e) => {
         form.removeChild(deletingElement);
         deletingElement = document.querySelector(`#tr-${number}`)
         tableBody.removeChild(deletingElement);
+        if(tableBody.childElementCount == 0)
+        {
+            sizeNameInp.required = true;
+            sizeAmountInp.required = true;
+            submit.disabled = true;
+        }
+        else{
+            sizeNameInp.required = false;
+            sizeAmountInp.required = false;
+        }
     }
 })
 

@@ -72,7 +72,8 @@ namespace MarketHub.Controllers
                 //{
                 //    await imageHelper.DeletePreviousImage(model.Img);
                 //}
-                return await imageHelper.SaveImage(fileImg!);
+                string path = await imageHelper.SaveImage(fileImg!);
+                return "https://owa.market-hub.ru" + path;
             }
             return string.Empty;
         }

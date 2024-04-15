@@ -64,8 +64,8 @@
             <h4 class="input__title">Размер товара</h4>
             <div id="form-container">
                 <div class="input-container">
-                    <input id="size-name" type="text"  class="input-panel__input" placeholder="Размер"/>
-                    <input id="size-amount" type="number"  class="input-panel__input" min="1" placeholder="Количество товара данного размера"/>
+                    <input id="size-name" type="text"  class="input-panel__input" placeholder="Размер" required/>
+                    <input id="size-amount" type="number"  class="input-panel__input" min="1" placeholder="Количество товара данного размера" required/>
                 </div>
                 <div id="size-btn" id="">Добавить размер</div>
             </div>
@@ -86,7 +86,7 @@
         </div>
     
         
-        <button type="submit">Добавить</button>
+        <button type="submit" id="submit" disabled>Добавить</button>
     </form>
 </div>
 
