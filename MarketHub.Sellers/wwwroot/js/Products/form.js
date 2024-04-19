@@ -33,7 +33,7 @@ btn.addEventListener("click", () => {
         newSizeAmountInp.setAttribute('min', 1);
         //input container
         newInputContainer.classList.add("input-container");
-        newInputContainer.id = `inp-cont${count}`;
+        newInputContainer.id = `inp-cont-${count}`;
 
         const tr = document.createElement("tr");
         const tdSize = document.createElement("td");
@@ -58,7 +58,7 @@ btn.addEventListener("click", () => {
         count++;
         sizeNameInp.value = "";
         sizeAmountInp.value = "";
-        submit.disabled = false;
+        unDisableButton();
     }
 });
 
@@ -67,24 +67,26 @@ tableBody.addEventListener("click", (e) => {
     {
         let btn = e.target;
         let number = btn.dataset.delete;
-        let deletingElement = document.querySelector(`#inp-cont${number}`);
+        let deletingElement = document.querySelector(`#inp-cont-${number}`);
         form.removeChild(deletingElement);
         deletingElement = document.querySelector(`#tr-${number}`)
         tableBody.removeChild(deletingElement);
-        if(tableBody.childElementCount == 0)
-        {
-            sizeNameInp.required = true;
-            sizeAmountInp.required = true;
-            submit.disabled = true;
-        }
-        else{
-            sizeNameInp.required = false;
-            sizeAmountInp.required = false;
-        }
+        unDisableButton();
     }
 })
 
-
+function unDisableButton() {
+    if (tableBody.childElementCount == 0) {
+        sizeNameInp.required = true;
+        sizeAmountInp.required = true;
+        submit.disabled = true;
+    }
+    else {
+        sizeNameInp.required = false;
+        sizeAmountInp.required = false;
+        submit.disabled = false;
+    }
+}
 //const form = document.querySelector("#form-container");
 //let count = 2;
 //let prevInp = document.querySelector(`#color-input-f${count - 1}`);

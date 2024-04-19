@@ -207,3 +207,62 @@ main{
         right: 90px;
         z-index: 0;
     }
+
+.menu {
+}
+
+.menu__list ul {
+    padding: 0;
+}
+
+.menu__list li {
+    list-style: none;
+    position: relative;
+    cursor: pointer;
+}
+
+    .menu__list li a:hover {
+        color: #000;
+    }
+
+    .menu__list li a {
+        color: #000;
+        text-decoration: none;
+    }
+
+.menu__list > li:hover .sub-menu__list {
+    display: block;
+}
+
+.menu__link {
+    padding: 10px 20px;
+}
+
+.sub-menu__list {
+    display: none;
+    padding-top: 30px;
+    background: #fff;
+    position: absolute;
+    z-index: 100;
+    top: 71px;
+    left: -10px;
+    border-radius: 0 0 10px 10px;
+    font-size: 20px;
+    box-shadow: 1px 1px 10px #00000070;
+}
+
+    .sub-menu__list > li {
+        padding: 0 10px;
+    }
+
+    .sub-menu__list form {
+        display: flex;
+        justify-content: center;
+    }
+
+input.sub-menu__link {
+    background-color: transparent;
+    box-shadow: none;
+    border: 0px;
+    text-align: center;
+}

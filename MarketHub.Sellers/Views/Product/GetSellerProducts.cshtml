@@ -1,0 +1,18 @@
+﻿@model List<SellerProductViewModel>
+
+<div class="container">
+    @foreach(var product in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="@product.Img" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@product.Name</h5>
+                <p class="card-text">Цена: @product.Price</p>
+                <a asp-controller="Product" asp-action="EditProduct" asp-route-id="@product.Id" class="btn btn-success">Редактировать</a>
+                <form method="post" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@product.Id">
+                    <input type="submit" class="btn btn-danger" value="Удалить"/>
+                </form>
+            </div>
+        </div>
+    }
+</div>

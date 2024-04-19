@@ -11,5 +11,9 @@ namespace MarketHub.Service.Interfaces
     public interface IProductService
     {
         Task<IBaseResponse<bool>> CreateProduct(ProductViewModel model);
+        Task<IBaseResponse<List<SellerProductViewModel>>> GetSellerProducts(int sellerId);
+        Task<IBaseResponse<SellerProductViewModel>> GetSellerProduct(int sellerId, int productId);
+        Task<IBaseResponse<bool>> EditProduct(SellerProductViewModel model);
+        Task<IBaseResponse<bool>> DeleteProduct(int sellerId, int productId);
     }
 }

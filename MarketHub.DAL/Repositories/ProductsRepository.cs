@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MarketHub.Domain.Abstractions.Repository;
+using MarketHub.Domain.Abstractions.Repositories;
 
 namespace MarketHub.DAL.Repositories
 {
-    public class ProductsRepository : IBaseRepository<ProductEntity>
+    public class ProductsRepository : IBaseRepository<ProductEntity>,
+        ISellerItemRepository<ProductEntity>
     {
 
         private readonly MarketHubDbContext _db;
@@ -41,7 +43,21 @@ namespace MarketHub.DAL.Repositories
                 .Include(x => x.Baskets)
                 .Include(x => x.Reviews)
                     .ThenInclude(x => x.Customer)
-                //.Include(x => x.Colors)
+                .Include(x => x.Sizes)
+                .ToListAsync();
+        }
+
+        public async Task<List<ProductEntity>?> GetAllBySellerId(int sellerId)
+        {
+            return await _db.Products
+                .Where(x => x.SellerId == sellerId)
+                .Include(x => x.Subcategory)
+                    .ThenInclude(x => x.Category)
+                .Include(x => x.Seller)
+                .Include(x => x.Orders)
+                .Include(x => x.Baskets)
+                .Include(x => x.Reviews)
+                    .ThenInclude(x => x.Customer)
                 .Include(x => x.Sizes)
                 .ToListAsync();
         }
@@ -57,7 +73,21 @@ namespace MarketHub.DAL.Repositories
                 .Include(x => x.Baskets)
                 .Include(x => x.Reviews)
                     .ThenInclude(x => x.Customer)
-                //.Include(x => x.Colors)
+                .Include(x => x.Sizes)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<ProductEntity?> GetOneBySellerId(int sellerId, int itemId)
+        {
+            return await _db.Products
+                .Where(x => x.SellerId == sellerId && x.Id == itemId)
+                .Include(x => x.Subcategory)
+                    .ThenInclude(x => x.Category)
+                .Include(x => x.Seller)
+                .Include(x => x.Orders)
+                .Include(x => x.Baskets)
+                .Include(x => x.Reviews)
+                    .ThenInclude(x => x.Customer)
                 .Include(x => x.Sizes)
                 .FirstOrDefaultAsync();
         }
@@ -68,9 +98,9 @@ namespace MarketHub.DAL.Repositories
                 .Where(x => x.Id == entity.Id)
                 .ExecuteUpdateAsync(x => x
                     .SetProperty(p => p.Name, entity.Name)
+                    .SetProperty(p => p.SubcategoryId, entity.SubcategoryId)
                     .SetProperty(p => p.Description, entity.Description)
                     .SetProperty(p => p.Price, entity.Price)
-                    .SetProperty(p => p.Amount, entity.Amount)
                     .SetProperty(p => p.Color, entity.Color)
                     .SetProperty(p => p.Img, entity.Img));
         }

@@ -1,4 +1,5 @@
 ﻿using MarketHub.DAL.Repositories;
+using MarketHub.Domain.Abstractions.Repositories;
 using MarketHub.Domain.Abstractions.Repository;
 using MarketHub.Domain.Entities;
 using MarketHub.Service.Implementations;
@@ -14,6 +15,7 @@ namespace MarketHub
             services.AddScoped<IBaseRepository<CategoryEntity>, CategoriesRepository>();
             services.AddScoped<IBaseRepository<SubcategoryEntity>, SubcategoriesRepository>();
             services.AddScoped<IBaseRepository<ProductEntity>, ProductsRepository>();
+            services.AddScoped<ISellerItemRepository<ProductEntity>, ProductsRepository>();
         }
         public static void InitialiseServices(this IServiceCollection services)
         {

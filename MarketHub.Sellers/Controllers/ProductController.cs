@@ -49,7 +49,52 @@ namespace MarketHub.Controllers
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             return RedirectToAction("Error");
         }
+        [HttpGet]
+        public async Task<IActionResult> GetSellerProducts()
+        {
+            //var sellerId = Convert.ToInt32(User.FindFirst("userId")!.Value);
+            var response = await _productService.GetSellerProducts(GetUserId());
+            if(response.StatusCode == Domain.Enums.StatusCode.Ok)
+                return View(response.Data);
+            return RedirectToAction("Error");
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(int id)
+        {
+            var productRespnose = await _productService.GetSellerProduct(GetUserId(), id);
+            if (productRespnose.StatusCode == Domain.Enums.StatusCode.Ok)
+            {
+                var subcategoryResponse = await _subcategoryService
+                    .GetSubcategories(productRespnose.Data!.Subcategory!.CategoryId);
+                if(subcategoryResponse.StatusCode == Domain.Enums.StatusCode.Ok)
+                {
+                    productRespnose.Data.Subcategories = subcategoryResponse.Data;
+                    return View(productRespnose.Data);
+                }
+            }
+            return RedirectToAction("Error");
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(SellerProductViewModel model)
+        {
+            if(model.CoverImage != null)
+                model.Img = await SaveImage(model.CoverImage);
 
+            var response = await _productService.EditProduct(model);
+            if(response.StatusCode == Domain.Enums.StatusCode.Ok)
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return RedirectToAction("Error");
+
+        }
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var response = await _productService.DeleteProduct(GetUserId(), id);
+            if (response.StatusCode == Domain.Enums.StatusCode.Ok)
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return RedirectToAction("Error");
+
+        }
+        private int GetUserId() => Convert.ToInt32(User.FindFirst("userId")!.Value);
         private async Task<List<SizeEntity>> CollectSizes(string[] sizeNames, int[] sizeAmount)
         {
             var list = new List<SizeEntity>();
@@ -73,7 +118,8 @@ namespace MarketHub.Controllers
                 //    await imageHelper.DeletePreviousImage(model.Img);
                 //}
                 string path = await imageHelper.SaveImage(fileImg!);
-                return "https://owa.market-hub.ru" + path;
+                //return "https://owa.market-hub.ru" + path;
+                return path;
             }
             return string.Empty;
         }

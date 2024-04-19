@@ -1,0 +1,74 @@
+﻿@model SellerProductViewModel
+@section Styles {
+
+    <link rel="stylesheet" href="~/css/Product/create.css" asp-append-version="true" />
+}
+
+<div class="container">
+    <h1 class="mb-3">Добавление товара</h1>
+    <form class="input-panel" autocomplete="on" method="post" asp-controller="Product" asp-action="EditProduct" enctype="multipart/form-data">
+        <div class="input-panel__column">
+            <h4 class="input__title">Детали товара</h4>
+            <div class="input-panel__row">
+                <label asp-for="Name" class="input__title">Название товара</label>
+                <input asp-for="Name" type="text" class="input-panel__input" name="Name" value="@Model.Name" required autocomplete="Name" autofocus placeholder="Название">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="input-panel__row">
+                <label asp-for="Name" class="input__title">Цвет товара</label>
+                <input asp-for="Color" type="text" class="input-panel__input" name="Color" value="@Model.Color" required autocomplete="Color" placeholder="Цвет">
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+
+            <div class="input-panel__row">
+                <label asp-for="Price" class="input__title">Цена товара</label>
+                <input asp-for="Price" type="number" class="input-panel__input" name="Price" value="@Model.Price" required autocomplete="Price" min="0" placeholder="Цена">
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="input-panel__row">
+                <label asp-for="Description" class="input__title">Описание товара</label>
+                <input asp-for="Description" type="text" class="input-panel__input" name="Description" value="@Model.Description" required autocomplete="Description" placeholder="Описание">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="input-panel__row">
+                <label asp-for="CoverImage" class="input__title" style="cursor: pointer;">Обновить картинку товара <img src="~/img/icons/download.png" alt=""></label>
+                <input asp-for="CoverImage" type="file" class="form-control" name="CoverImage" accept="image/*" hidden>
+                <input asp-for="Img" type="text" name="Img" value="@Model.Img" hidden>
+                <span asp-validation-for="CoverImage" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="input-panel__column">
+            <div class="input-panel__row">
+                <h4 class="input__title">Подкатегория товара</h4>
+                <div class="subcategory-container">
+                    <div>
+                        <input asp-for="SubcategoryId" type="radio" value="@Model.Subcategory!.Id" id="sub-@Model.Subcategory!.Id" class="subcategory__input" checked hidden>
+                        <label for="sub-@Model.Subcategory!.Id" class="subcategory__title">@Model.Subcategory!.Name</label>
+                    </div>
+                    @foreach (var subcategory in Model.Subcategories!.Where(x => x.Id != Model.SubcategoryId))
+                    {
+                        <div>
+                            <input asp-for="SubcategoryId" type="radio" value="@subcategory.Id" id="sub-@subcategory.Id" class="subcategory__input" hidden>
+                            <label for="sub-@subcategory.Id" class="subcategory__title">@subcategory.Name</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="input-panel__column">
+
+        </div>
+
+        <button type="submit" id="submit">Обновить</button>
+    </form>
+</div>
+
+@section Scripts {
+    @* <script src="~/js/Products/form.js"></script> *@
+}
