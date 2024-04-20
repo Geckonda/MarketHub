@@ -15,5 +15,9 @@ namespace MarketHub.Service.Interfaces
         Task<IBaseResponse<SellerProductViewModel>> GetSellerProduct(int sellerId, int productId);
         Task<IBaseResponse<bool>> EditProduct(SellerProductViewModel model);
         Task<IBaseResponse<bool>> DeleteProduct(int sellerId, int productId);
+        Task<IBaseResponse<SizeEditorViewModel>> GetSellerProductSizes(int sellerId, int productId);
+        Task<IBaseResponse<bool>> CreateSizes(SizeEditorViewModel model);
+        Task<IBaseResponse<bool>> AddSizes(SizeEditorViewModel model);
+        Task<IBaseResponse<bool>> DeleteSizes(int sizeId, int productId);
     }
 }

@@ -1,13 +1,24 @@
 ﻿@model List<SellerProductViewModel>
 
-<div class="container">
+@section Styles {
+
+    <link rel="stylesheet" href="~/css/Product/getProduct.css" asp-append-version="true" />
+}
+
+
+<div class="container product__container">
     @foreach(var product in Model)
     {
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="@product.Img" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">@product.Name</h5>
-                <p class="card-text">Цена: @product.Price</p>
+        <div class="product-card product">
+            <img class="product__img" src="@product.Img" alt="@product.Name">
+            <div class="product__body">
+                <h5 class="product__title">@product.Name</h5>
+                <p class="product__text">Цвет: <b>@product.Color</b></p>
+                <p class="product__text">количество: <b>@product.Amount</b></p>
+                <p class="product__text">Цена: <b>@product.Price</b></p>
+            </div>
+            <div class="product__panel">
+                <a asp-controller="Product" asp-action="EditProductSizes" asp-route-id="@product.Id" class="btn">Добавить количество</a>
                 <a asp-controller="Product" asp-action="EditProduct" asp-route-id="@product.Id" class="btn btn-success">Редактировать</a>
                 <form method="post" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@product.Id">
                     <input type="submit" class="btn btn-danger" value="Удалить"/>

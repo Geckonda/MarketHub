@@ -86,6 +86,7 @@ namespace MarketHub.Controllers
             return RedirectToAction("Error");
 
         }
+        [HttpPost]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var response = await _productService.DeleteProduct(GetUserId(), id);
@@ -94,6 +95,38 @@ namespace MarketHub.Controllers
             return RedirectToAction("Error");
 
         }
+        [HttpGet]
+        public async Task<IActionResult> EditProductSizes(int id)
+        {
+            var response = await _productService.GetSellerProductSizes(GetUserId(), id);
+            if (response.StatusCode == Domain.Enums.StatusCode.Ok)
+                return View(response.Data);
+            return RedirectToAction("Error");
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteSizes(SizeEditorViewModel model)
+        {
+            var response = await _productService.DeleteSizes(model.SizeId, model.ProductId);
+            if(response.StatusCode == Domain.Enums.StatusCode.Ok)
+                return RedirectToRoute(new { controller = "Product", action = "EditProductSizes", id=model.ProductId });
+            return RedirectToAction("Error");
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateSizes(SizeEditorViewModel model)
+        {
+            var response = await _productService.CreateSizes(model);
+            if (response.StatusCode == Domain.Enums.StatusCode.Ok)
+                return RedirectToRoute(new { controller = "Product", action = "EditProductSizes", id = model.ProductId });
+            return RedirectToAction("Error");
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddSizes(SizeEditorViewModel model)
+        {
+			var response = await _productService.AddSizes(model);
+			if (response.StatusCode == Domain.Enums.StatusCode.Ok)
+				return RedirectToRoute(new { controller = "Product", action = "EditProductSizes", id = model.ProductId });
+			return RedirectToAction("Error");
+		}
         private int GetUserId() => Convert.ToInt32(User.FindFirst("userId")!.Value);
         private async Task<List<SizeEntity>> CollectSizes(string[] sizeNames, int[] sizeAmount)
         {

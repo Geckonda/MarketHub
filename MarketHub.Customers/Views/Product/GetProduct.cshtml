@@ -50,7 +50,7 @@
             <div class="product__size-container">
                 @foreach(var size in Model.Sizes.OrderBy(s => s.Name))
                 {
-                    <div class="product__size-icon" data-size-amount="@size.Amount">@size.Name</div>
+                    <div class="product__size-icon" title="@size.Amount" data-size-amount="@size.Amount">@size.Name</div>
                 }
             </div>
         </div>

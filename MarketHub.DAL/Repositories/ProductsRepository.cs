@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MarketHub.Domain.Abstractions.Repository;
 using MarketHub.Domain.Abstractions.Repositories;
+using MarketHub.Domain.Abstractions.Repositories.Bundle;
 
 namespace MarketHub.DAL.Repositories
 {
-    public class ProductsRepository : IBaseRepository<ProductEntity>,
-        ISellerItemRepository<ProductEntity>
+    public class ProductsRepository : IProductBundleRepository
     {
 
         private readonly MarketHubDbContext _db;
@@ -31,6 +31,14 @@ namespace MarketHub.DAL.Repositories
             await _db.Products
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
+        }
+
+        public async Task EditProductAmount(int productId, uint amount)
+        {
+            await _db.Products
+                .Where(p => p.Id == productId)
+                .ExecuteUpdateAsync(x => x
+                    .SetProperty(x => x.Amount, amount));
         }
 
         public async Task<List<ProductEntity>?> GetAll()

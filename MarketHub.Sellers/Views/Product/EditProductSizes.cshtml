@@ -1,0 +1,48 @@
+﻿@model SizeEditorViewModel
+
+<div class="container">
+	<form asp-controller="Product" asp-action="CreateSizes" method="post">
+		<input asp-for="@Model.ProductId" type="number" value="@Model.ProductId" hidden />
+
+		<label asp-for="@Model.Name" class="input__title">Размер</label>
+		<input asp-for="@Model.Name" type="text" value="" autofocus required />
+
+		<label asp-for="@Model.Amount" class="input__title">Количество</label>
+		<input asp-for="@Model.Amount" type="number" min="1" value=""  required />
+		<input type="submit" name="name" value="Создать" />
+	</form>
+	<hr />
+	<table>
+		<thead>
+			<tr>
+				<th scope="col">Размер</th>
+				<th scope="col">Количество</th>
+			</tr>
+		</thead>
+		<tbody>
+		@foreach(var size in Model.Sizes)
+		{
+			<tr>
+				<th>@size.Name</th>
+				<th>@size.Amount</th>
+				<th>
+					<form asp-controller="Product" asp-action="AddSizes" method="post">
+						<input asp-for="@Model.SizeId" type="number" value="@size.Id" hidden />
+						<input asp-for="@Model.ProductId" type="number" value="@size.Product!.Id" hidden />
+						<input asp-for="@Model.Name" type="number" value="@size!.Name" hidden />
+						<input asp-for="@Model.Amount" type="number" min="1" value="" placeholder="Сколько добавить" required/>
+						<input type="submit" name="name" value="Добавить" />
+					</form>	
+				</th>
+				<th>
+					<form asp-controller="Product" asp-action="DeleteSizes" method="post">
+						<input asp-for="@Model.SizeId" type="number" value="@size.Id" hidden />
+						<input asp-for="@Model.ProductId" type="number" value="@size.Product!.Id" hidden />
+						<input type="submit" value="Удалить" />
+					</form>
+				</th>
+			</tr>
+		}
+		</tbody>
+	</table>
+</div>

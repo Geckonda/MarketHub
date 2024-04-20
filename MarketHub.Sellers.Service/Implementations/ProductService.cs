@@ -1,5 +1,6 @@
 ﻿using MarketHub.DAL.Repositories;
 using MarketHub.Domain.Abstractions.Repositories;
+using MarketHub.Domain.Abstractions.Repositories.Bundle;
 using MarketHub.Domain.Abstractions.Repository;
 using MarketHub.Domain.Abstractions.Responses;
 using MarketHub.Domain.Entities;
@@ -12,18 +13,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MarketHub.Service.Implementations
 {
     public class ProductService : IProductService
     {
-        private readonly IBaseRepository<ProductEntity> _productsRepository;
-        private readonly ISellerItemRepository<ProductEntity> _sellerItemRepository;
-        public ProductService(IBaseRepository<ProductEntity> productRepository, 
-            ISellerItemRepository<ProductEntity> sellerItemRepository)
+        //private readonly IBaseRepository<ProductEntity> _productsRepository;
+        //private readonly ISellerItemRepository<ProductEntity> _sellerItemRepository;
+        //private readonly ISizesRepository _sizesEditRepository;
+        //private readonly IBaseRepository<SizeEntity> _sizesRepository;
+        //public ProductService(IBaseRepository<ProductEntity> productRepository,
+        //    IBaseRepository<SizeEntity> sizesRepository, 
+        //    ISellerItemRepository<ProductEntity> sellerItemRepository,
+        //    ISizesRepository sizesEditRepository)
+        //{
+        //    _productsRepository = productRepository;
+        //    _sellerItemRepository = sellerItemRepository;
+        //    _sizesEditRepository = sizesEditRepository;
+        //    _sizesRepository = sizesRepository;        
+        //}
+        private readonly ISizesRepository _sizesEditRepository;
+        private readonly IBaseRepository<SizeEntity> _sizesRepository;
+        private readonly IProductBundleRepository _productBundleRepository;
+        public ProductService(IProductBundleRepository productBundleRepository,
+            IBaseRepository<SizeEntity> sizesRepository,
+            ISizesRepository sizesEditRepository)
         {
-            _productsRepository = productRepository;
-            _sellerItemRepository = sellerItemRepository;
+            _productBundleRepository = productBundleRepository;
+            _sizesRepository = sizesRepository;
+            _sizesEditRepository = sizesEditRepository;
         }
         private ProductEntity ModelToEntity(ProductViewModel model)
         {
@@ -90,7 +109,7 @@ namespace MarketHub.Service.Implementations
             {
                 model.Amount = SumAmount(model.Sizes);
                 var product = ModelToEntity(model);
-                await _productsRepository.Add(product);
+                await _productBundleRepository.Add(product);
                 baseResponse.StatusCode = StatusCode.Ok;
                 return baseResponse;
             }
@@ -110,7 +129,7 @@ namespace MarketHub.Service.Implementations
             var baseResponse = new BaseResponse<List<SellerProductViewModel>>();
             try
             {
-                var entities = await _sellerItemRepository.GetAllBySellerId(sellerId);
+                var entities = await _productBundleRepository.GetAllBySellerId(sellerId);
                 if(entities == null)
                 {
                     return new BaseResponse<List<SellerProductViewModel>>()
@@ -147,7 +166,7 @@ namespace MarketHub.Service.Implementations
             var response = new BaseResponse<SellerProductViewModel> ();
             try
             {
-                var entity = await _sellerItemRepository.GetOneBySellerId(sellerId, productId);
+                var entity = await _productBundleRepository.GetOneBySellerId(sellerId, productId);
                 if(entity == null)
                     return new BaseResponse<SellerProductViewModel>()
                     {
@@ -178,7 +197,7 @@ namespace MarketHub.Service.Implementations
             try
             {
                 var entity = ModelToEntity(model);
-                await _productsRepository.Update(entity);
+                await _productBundleRepository.Update(entity);
                 response.Data = true;
                 response.StatusCode = StatusCode.Ok;
                 response.Description = "Товар изменен";
@@ -201,7 +220,7 @@ namespace MarketHub.Service.Implementations
             var response = new BaseResponse<bool>();
             try
             {
-                var entity = await _sellerItemRepository.GetOneBySellerId(sellerId, productId);
+                var entity = await _productBundleRepository.GetOneBySellerId(sellerId, productId);
                 if (entity == null)
                     return new BaseResponse<bool>()
                     {
@@ -210,7 +229,7 @@ namespace MarketHub.Service.Implementations
                         ErrorForUser = "Товар не найден",
                         Data = false,
                     };
-                await _productsRepository.Delete(productId);
+                await _productBundleRepository.Delete(productId);
                 response.Data = true;
                 response.StatusCode = StatusCode.Ok;
                 response.Description = "Товар удален";
@@ -227,5 +246,167 @@ namespace MarketHub.Service.Implementations
                 };
             }
         }
-    }
+
+        public async Task<IBaseResponse<SizeEditorViewModel>> GetSellerProductSizes(int sellerId, int productId)
+        {
+            var response = new BaseResponse<SizeEditorViewModel>();
+            try
+            {
+                var sizes = await _sizesEditRepository.GetAllBySellerAndProductId(sellerId, productId);
+                var product = await _productBundleRepository.GetOneBySellerId(sellerId, productId);
+                if (product == null)
+                    return new BaseResponse<SizeEditorViewModel>()
+                    {
+
+                        Description = $"Не удалось найти товар",
+                        StatusCode = StatusCode.InternalServerError,
+                        ErrorForUser = "Не удалось найти товар",
+                    };
+                var model = new SizeEditorViewModel
+                {
+                    Sizes = sizes!,
+                    Product = product,
+                    ProductId = product.Id
+                };
+                response.Data = model;
+                response.StatusCode = StatusCode.Ok;
+                response.Description = $"Найден товар в количестве {product.Amount}";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<SizeEditorViewModel>()
+                {
+                    Description = $"[ProductService | GetSellerProductSizes]: {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError,
+                    ErrorForUser = "Не удалось получить товары",
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<bool>> DeleteSizes(int sizeId, int productId)
+        {
+            var response = new BaseResponse<bool>();
+            try
+            {
+                var size = await _sizesRepository.GetOne(sizeId);
+                var product = await _productBundleRepository.GetOne(productId);
+                if (size == null)
+                    return new BaseResponse<bool>()
+                    {
+                        Description = $"Не удалось найти размер",
+                        StatusCode = StatusCode.InternalServerError,
+                        ErrorForUser = "Не удалось найти размер",
+                        Data = false,
+                    }; 
+                if (product == null)
+                    return new BaseResponse<bool>()
+                    {
+                        Description = $"Не удалось найти товар",
+                        StatusCode = StatusCode.InternalServerError,
+                        ErrorForUser = "Не удалось найти товар",
+                        Data = false,
+                    };
+                product.Amount -= size.Amount;
+                await _productBundleRepository.EditProductAmount(product.Id, product.Amount);
+                await _sizesRepository.Delete(sizeId);
+                response.Data = true;
+                response.StatusCode = StatusCode.Ok;
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool>()
+                {
+                    Description = $"[ProductService | DeleteSizes]: {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError,
+                    ErrorForUser = "Не удалось удалить размер",
+                    Data = false,
+                };
+            }
+        }
+
+		public async Task<IBaseResponse<bool>> CreateSizes(SizeEditorViewModel model)
+		{
+            var response = new BaseResponse<bool>();
+            try
+			{
+				var product = await _productBundleRepository.GetOne(model.ProductId);
+                if (product == null)
+				    return new BaseResponse<bool>()
+				    {
+					    Description = $"Не удалось найти товар",
+					    StatusCode = StatusCode.InternalServerError,
+					    ErrorForUser = "Не удалось найти товар",
+					    Data = false,
+				    };
+                product.Amount += model.Amount;
+				var size = new SizeEntity()
+                {
+                    Name = model.Name,
+                    Amount = model.Amount,
+                    ProductId = model.ProductId,
+                };
+                await _productBundleRepository.EditProductAmount(product.Id, product.Amount);
+                await _sizesRepository.Add(size);
+				response.Data = true;
+				response.StatusCode = StatusCode.Ok;
+				return response;
+			}
+            catch (Exception ex)
+            {
+				return new BaseResponse<bool>()
+				{
+					Description = $"[ProductService | CreateSizes]: {ex.Message}",
+					StatusCode = StatusCode.InternalServerError,
+					ErrorForUser = "Не удалось создать размер",
+					Data = false,
+				};
+			}
+		}
+
+		public async Task<IBaseResponse<bool>> AddSizes(SizeEditorViewModel model)
+		{
+            var response = new BaseResponse<bool>();
+            try
+			{
+				var size = await _sizesRepository.GetOne(model.SizeId);
+				var product = await _productBundleRepository.GetOne(model.ProductId);
+				if (size == null)
+					return new BaseResponse<bool>()
+					{
+						Description = $"Не удалось найти размер",
+						StatusCode = StatusCode.InternalServerError,
+						ErrorForUser = "Не удалось найти размер",
+						Data = false,
+					};
+				if (product == null)
+				    return new BaseResponse<bool>()
+				    {
+					    Description = $"Не удалось найти товар",
+					    StatusCode = StatusCode.InternalServerError,
+					    ErrorForUser = "Не удалось найти товар",
+					    Data = false,
+				    };
+				product.Amount += model.Amount;
+                size.Amount += model.Amount;
+                await _productBundleRepository.EditProductAmount(product.Id, product.Amount);
+                await _sizesRepository.Update(size);
+				response.Data = true;
+				response.StatusCode = StatusCode.Ok;
+				return response;
+			}
+            catch (Exception ex)
+            {
+				return new BaseResponse<bool>()
+				{
+					Description = $"[ProductService | AddSizes]: {ex.Message}",
+					StatusCode = StatusCode.InternalServerError,
+					ErrorForUser = "Не удалось добавить размер",
+					Data = false,
+				};
+			}
+		}
+	}
 }
