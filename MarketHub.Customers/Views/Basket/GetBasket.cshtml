@@ -8,14 +8,18 @@
 	}
 	else
 	{
-		@foreach(var product in Model.Products)
+
+		@foreach(var bp in Model.BasketProducts)
 		{
 			<div>
-				<h4 class="product__title">@product.Name</h4>
-				<p class="product__price">@product.Price</p>
-				<form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@product.Id">
+				<h4 class="product__title">@bp.Product!.Name</h4>
+				<img src="@bp.Product.Img" style="width:100px; height:120px; object-fit:cover;" alt="Alternate Text" />
+				<p class="product__price">@bp.Product!.Price</p>
+				<p class="product__price">@bp.Size!.Name</p>
+				<p class="product__price">@bp.ProductsCount</p>
+				@* <form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@product.Id">
 					<button type="submit" class="btn btn-danger">Убрать из корзины</button>	
-				</form>
+				</form> *@
 			</div>
 			<hr />
 		}

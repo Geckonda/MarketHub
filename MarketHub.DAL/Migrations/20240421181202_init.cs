@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketHub.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -200,30 +200,6 @@ namespace MarketHub.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BasketEntityProductEntity",
-                columns: table => new
-                {
-                    BasketsId = table.Column<int>(type: "integer", nullable: false),
-                    ProductsId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BasketEntityProductEntity", x => new { x.BasketsId, x.ProductsId });
-                    table.ForeignKey(
-                        name: "FK_BasketEntityProductEntity_Baskets_BasketsId",
-                        column: x => x.BasketsId,
-                        principalTable: "Baskets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BasketEntityProductEntity_Products_ProductsId",
-                        column: x => x.ProductsId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Colors",
                 columns: table => new
                 {
@@ -319,6 +295,40 @@ namespace MarketHub.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BasketsProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BasketsId = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    SizeId = table.Column<int>(type: "integer", nullable: false),
+                    ProductsCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BasketsProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BasketsProducts_Baskets_BasketsId",
+                        column: x => x.BasketsId,
+                        principalTable: "Baskets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BasketsProducts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BasketsProducts_Sizes_SizeId",
+                        column: x => x.SizeId,
+                        principalTable: "Sizes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "Name" },
@@ -349,15 +359,25 @@ namespace MarketHub.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BasketEntityProductEntity_ProductsId",
-                table: "BasketEntityProductEntity",
-                column: "ProductsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Baskets_CustomerId",
                 table: "Baskets",
                 column: "CustomerId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BasketsProducts_BasketsId",
+                table: "BasketsProducts",
+                column: "BasketsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BasketsProducts_ProductId",
+                table: "BasketsProducts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BasketsProducts_SizeId",
+                table: "BasketsProducts",
+                column: "SizeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Name",
@@ -460,7 +480,7 @@ namespace MarketHub.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BasketEntityProductEntity");
+                name: "BasketsProducts");
 
             migrationBuilder.DropTable(
                 name: "Colors");
@@ -472,10 +492,10 @@ namespace MarketHub.DAL.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Sizes");
+                name: "Baskets");
 
             migrationBuilder.DropTable(
-                name: "Baskets");
+                name: "Sizes");
 
             migrationBuilder.DropTable(
                 name: "Orders");

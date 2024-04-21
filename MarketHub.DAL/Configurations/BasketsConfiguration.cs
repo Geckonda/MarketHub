@@ -18,9 +18,9 @@ namespace MarketHub.DAL.Configurations
 
             //связи
 
-            builder
-                .HasMany(b => b.Products)
-                .WithMany(p => p.Baskets);
+            //builder
+            //    .HasMany(b => b.Products)
+            //    .WithMany(p => p.Baskets);
         }
     }
 }

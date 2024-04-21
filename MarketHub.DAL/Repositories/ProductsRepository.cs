@@ -52,6 +52,8 @@ namespace MarketHub.DAL.Repositories
                 .Include(x => x.Reviews)
                     .ThenInclude(x => x.Customer)
                 .Include(x => x.Sizes)
+                .Include(b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                 .ToListAsync();
         }
 
@@ -67,6 +69,8 @@ namespace MarketHub.DAL.Repositories
                 .Include(x => x.Reviews)
                     .ThenInclude(x => x.Customer)
                 .Include(x => x.Sizes)
+                .Include(b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                 .ToListAsync();
         }
 
@@ -82,6 +86,8 @@ namespace MarketHub.DAL.Repositories
                 .Include(x => x.Reviews)
                     .ThenInclude(x => x.Customer)
                 .Include(x => x.Sizes)
+                .Include(b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                 .FirstOrDefaultAsync();
         }
 
@@ -97,6 +103,8 @@ namespace MarketHub.DAL.Repositories
                 .Include(x => x.Reviews)
                     .ThenInclude(x => x.Customer)
                 .Include(x => x.Sizes)
+                .Include(b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                 .FirstOrDefaultAsync();
         }
 

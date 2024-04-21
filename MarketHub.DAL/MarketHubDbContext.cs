@@ -18,6 +18,7 @@ namespace MarketHub.DAL
             
         }
         public DbSet<BasketEntity> Baskets => Set<BasketEntity>();
+        public DbSet<BasketEntityProductEntity> BasketsProducts => Set<BasketEntityProductEntity>();
         public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
         public DbSet<ColorEntity> Colors => Set<ColorEntity>();
         public DbSet<CustomerEntity> Customers => Set<CustomerEntity>();

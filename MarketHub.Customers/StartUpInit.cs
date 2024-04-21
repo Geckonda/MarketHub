@@ -19,6 +19,7 @@ namespace MarketHub
             services.AddScoped<IBaseRepository<CategoryEntity>, CategoriesRepository>();
             services.AddScoped<IBaseRepository<ReviewEntity>, ReviewsRepository>();
             services.AddScoped<IBaseRepository<BasketEntity>, BasketsRepository>();
+            services.AddScoped<IBaseRepository<BasketEntityProductEntity>, BasketProductsRepository>();
             services.AddScoped<IBaseRepository<SizeEntity>, SizesRepository>();
             services.AddScoped<ICustomerItemRepository<BasketEntity>, BasketsRepository>();
 

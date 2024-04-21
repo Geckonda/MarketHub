@@ -76,7 +76,7 @@
         <div class="product__panel">
             <div class="product__operation">
                 <h2 class="product__price">@Model.Price₽</h2>
-                <form asp-controller="Basket" asp-action="AddProductToBasket" method="post" asp-route-productId="@Model.Id">
+                <form asp-controller="Basket" asp-action="AddProductToBasket" method="post" asp-route-productId="@Model.Id" asp-route-sizeId="@Model.CurrentSize.Id" asp-route-productsCount="1">
                     <button type="submit" class="basket-btn">Добавить в корзину</button>
                 </form>
                 <div class="product__amount"><img src="~/img/Product/sfdsf.png" alt=""> В наличии <span id="amount">@Model.Amount</span></div>

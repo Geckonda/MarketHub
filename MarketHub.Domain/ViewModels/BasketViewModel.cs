@@ -12,6 +12,7 @@ namespace MarketHub.Domain.ViewModels
         public int Id { get; set; }
         public CustomerEntity? Customer { get; set; }
         public List<ProductEntity> Products { get; set; } = new();
+        public List<BasketEntityProductEntity> BasketProducts { get; set; }
 
     }
 }

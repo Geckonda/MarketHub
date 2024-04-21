@@ -40,9 +40,6 @@ namespace MarketHub.DAL.Configurations
                 .HasMany(p => p.Orders)
                 .WithMany(or => or.Products);
             builder
-                .HasMany(p => p.Baskets)
-                .WithMany(b => b.Products);
-            builder
                 .HasMany(p => p.Reviews)
                 .WithOne(r => r.Product)
                 .HasForeignKey(r => r.ProductId);
@@ -54,6 +51,22 @@ namespace MarketHub.DAL.Configurations
                 .HasMany(p => p.Sizes)
                 .WithOne(s => s.Product)
                 .HasForeignKey(s => s.ProductId);
+
+            builder
+                .HasMany(p => p.Baskets)
+                .WithMany(b => b.Products)
+                .UsingEntity<BasketEntityProductEntity>(
+                    j => j
+                    .HasOne(x => x.Basket)
+                    .WithMany(x => x.BasketProducts)
+                    .HasForeignKey(x => x.BasketsId),
+                    j => j
+                    .HasOne(x => x.Product)
+                    .WithMany(x => x.BasketProducts)
+                    .HasForeignKey(x => x.ProductId),
+                    j => j
+                    .HasKey(x => x.Id)
+                );
         }
     }
 }

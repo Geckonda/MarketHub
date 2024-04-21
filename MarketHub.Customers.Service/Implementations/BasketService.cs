@@ -19,10 +19,17 @@ namespace MarketHub.Customers.Service.Implementations
     public class BasketService : IBasketService
     {
         private readonly IBasketBundleRepository _basketRepository;
+        private readonly IBaseRepository<BasketEntityProductEntity> _basketProductsRepository;
+        private readonly IBaseRepository<SizeEntity> _sizeRepository;
 
-        public BasketService(IBasketBundleRepository basketRepository)
+        public BasketService(IBasketBundleRepository basketRepository,
+            IBaseRepository<SizeEntity> sizeRepository,
+            IBaseRepository<BasketEntityProductEntity> basketProductRepository)
         {
             _basketRepository = basketRepository;
+            _sizeRepository = sizeRepository;
+            _basketProductsRepository = basketProductRepository;
+
         }
         private async Task<bool> CreateBasket(int customerId)
         {
@@ -78,19 +85,37 @@ namespace MarketHub.Customers.Service.Implementations
                 Id = entity.Id,
                 Customer = entity.Customer,
                 Products = entity.Products,
+                BasketProducts = entity.BasketProducts,
             };
         }
 
-        public async Task<IBaseResponse<bool>> AddProductToBasket(int customerId, int productId)
+        public async Task<IBaseResponse<bool>> AddProductToBasket(int customerId, int productId, int sizeId, int productsCount)
         {
             var response = new BaseResponse<bool>();
             try
             {
                 var entity = await _basketRepository.GetOneByCustomerId(customerId);
                 if (entity == null)
+                {
                     await CreateBasket(customerId);
-
-                await _basketRepository.AddProductToBasket(customerId, productId);
+                    entity = await _basketRepository.GetOneByCustomerId(customerId);
+                }
+                var basket = await _basketRepository.GetOneBySizeId(entity!.Id, productId, sizeId);
+                if(basket == null)
+				{
+					var bp = new BasketEntityProductEntity()
+					{
+						BasketsId = entity!.Id,
+						ProductId = productId,
+						SizeId = sizeId,
+						ProductsCount = productsCount,
+					};
+					await _basketRepository.AddProductToBasket(bp);
+				}
+                else
+                {
+                    await _basketRepository.EditBasket(basket.Id, productsCount + basket.ProductsCount);
+                }
                 response.Data = true;
                 response.StatusCode = StatusCode.Ok;
                 response.Description = "Товар добавлен в корзину";

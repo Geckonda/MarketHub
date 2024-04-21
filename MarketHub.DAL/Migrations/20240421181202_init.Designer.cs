@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketHub.DAL.Migrations
 {
     [DbContext(typeof(MarketHubDbContext))]
-    [Migration("20240331160958_Init")]
-    partial class Init
+    [Migration("20240421181202_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace MarketHub.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("BasketEntityProductEntity", b =>
-                {
-                    b.Property<int>("BasketsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("BasketsId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("BasketEntityProductEntity");
-                });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.BasketEntity", b =>
                 {
@@ -57,6 +42,37 @@ namespace MarketHub.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Baskets");
+                });
+
+            modelBuilder.Entity("MarketHub.Domain.Entities.BasketEntityProductEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BasketsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductsCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SizeId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasketsId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SizeId");
+
+                    b.ToTable("BasketsProducts");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.CategoryEntity", b =>
@@ -446,21 +462,6 @@ namespace MarketHub.DAL.Migrations
                     b.ToTable("OrderEntityProductEntity");
                 });
 
-            modelBuilder.Entity("BasketEntityProductEntity", b =>
-                {
-                    b.HasOne("MarketHub.Domain.Entities.BasketEntity", null)
-                        .WithMany()
-                        .HasForeignKey("BasketsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MarketHub.Domain.Entities.ProductEntity", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MarketHub.Domain.Entities.BasketEntity", b =>
                 {
                     b.HasOne("MarketHub.Domain.Entities.CustomerEntity", "Customer")
@@ -470,6 +471,33 @@ namespace MarketHub.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("MarketHub.Domain.Entities.BasketEntityProductEntity", b =>
+                {
+                    b.HasOne("MarketHub.Domain.Entities.BasketEntity", "Basket")
+                        .WithMany("BasketProducts")
+                        .HasForeignKey("BasketsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MarketHub.Domain.Entities.ProductEntity", "Product")
+                        .WithMany("BasketProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MarketHub.Domain.Entities.SizeEntity", "Size")
+                        .WithMany()
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.ColorEntity", b =>
@@ -599,6 +627,11 @@ namespace MarketHub.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MarketHub.Domain.Entities.BasketEntity", b =>
+                {
+                    b.Navigation("BasketProducts");
+                });
+
             modelBuilder.Entity("MarketHub.Domain.Entities.CategoryEntity", b =>
                 {
                     b.Navigation("Subcategories");
@@ -620,6 +653,8 @@ namespace MarketHub.DAL.Migrations
 
             modelBuilder.Entity("MarketHub.Domain.Entities.ProductEntity", b =>
                 {
+                    b.Navigation("BasketProducts");
+
                     b.Navigation("Reviews");
 
                     b.Navigation("Sizes");

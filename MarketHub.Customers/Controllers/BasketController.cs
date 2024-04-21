@@ -23,12 +23,12 @@ namespace MarketHub.Customers.Controllers
             return RedirectToAction("Error");
         }
         [HttpPost]
-        public async Task<bool> AddProductToBasket(int productId)
+        public async Task<IActionResult> AddProductToBasket(int productId, int sizeId, int productsCount)
         {
-            var response = await _basketService.AddProductToBasket(GetUserId(), productId);
+            var response = await _basketService.AddProductToBasket(GetUserId(), productId, sizeId, productsCount);
             if(response.StatusCode == Domain.Enums.StatusCode.Ok)
-                return response.Data;
-            return false;
+                return RedirectToRoute(new { controller = "Product", action = "GetProductBySize", id = productId, sizeId = sizeId });
+            return RedirectToAction("Error");
         }
         [HttpPost]
         public async Task<IActionResult> RemoveProductFromBasket(int productId)

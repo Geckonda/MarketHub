@@ -27,11 +27,9 @@ namespace MarketHub.DAL.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task AddProductToBasket(int customerId, int productId)
+        public async Task AddProductToBasket(BasketEntityProductEntity bp)
         {
-            var basket = await _db.Baskets.Where(x => x.CustomerId == customerId).FirstOrDefaultAsync();
-            var product = await _db.Products.Where(x => x.Id ==  productId).FirstOrDefaultAsync();
-            basket!.Products.Add(product!);
+            await _db.BasketsProducts.AddAsync(bp);
             await _db.SaveChangesAsync();
         }
 
@@ -42,11 +40,21 @@ namespace MarketHub.DAL.Repositories
                 .ExecuteDeleteAsync();
         }
 
-        public async Task<List<BasketEntity>?> GetAll()
+		public async Task EditBasket(int id, int productCount)
+		{
+            await _db.BasketsProducts
+                .Where(x => x.Id == id)
+                .ExecuteUpdateAsync(x => x
+                    .SetProperty(p => p.ProductsCount, productCount));
+		}
+
+		public async Task<List<BasketEntity>?> GetAll()
         {
             return await _db.Baskets
                 .Include(b => b.Products)
                 .Include(b => b.Customer)
+                .Include(b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                 .ToListAsync();
         }
 
@@ -56,13 +64,17 @@ namespace MarketHub.DAL.Repositories
                 .Where(b => b.CustomerId == customerId)
                 .Include(b => b.Products)
                 .Include(b => b.Customer)
+                .Include (b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                 .ToListAsync();
         }
 
         public async Task<BasketEntity?> GetOne(int id)
         {
             return await _db.Baskets
-                .Where(b => b.Id == id) 
+                .Where(b => b.Id == id)
+                .Include(b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                 .FirstOrDefaultAsync();
         }
 
@@ -72,6 +84,8 @@ namespace MarketHub.DAL.Repositories
                 .Where (b => b.CustomerId == customerId && b.Id == itemId)
                 .Include(b => b.Products)
                 .Include(b => b.Customer)
+                .Include(b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                 .FirstOrDefaultAsync();
         }
 
@@ -81,10 +95,19 @@ namespace MarketHub.DAL.Repositories
                .Where(b => b.CustomerId == customerId)
                .Include(b => b.Products)
                .Include(b => b.Customer)
+               .Include(b => b.BasketProducts)
+                    .ThenInclude(x => x.Size)
                .FirstOrDefaultAsync();
         }
 
-        public async Task RemoveProductFromBasket(int customerId, int productId)
+		public async Task<BasketEntityProductEntity> GetOneBySizeId(int basketId, int productId, int sizeId)
+		{
+            return await _db.BasketsProducts
+                .Where(x => x.BasketsId == basketId && x.ProductId == productId && x.SizeId == sizeId)
+				.FirstOrDefaultAsync();
+		}
+
+		public async Task RemoveProductFromBasket(int customerId, int productId)
         {
             var basket = await _db.Baskets.Where(x => x.CustomerId == customerId)
                 .Include (b => b.Products)
