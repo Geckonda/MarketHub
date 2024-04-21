@@ -1,0 +1,23 @@
+﻿@model BasketViewModel
+
+<div class="container">
+	<h1>Корзина</h1>
+	@if(Model.Products.Count == 0)
+	{
+		<h2>Корзина пуста</h2>
+	}
+	else
+	{
+		@foreach(var product in Model.Products)
+		{
+			<div>
+				<h4 class="product__title">@product.Name</h4>
+				<p class="product__price">@product.Price</p>
+				<form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@product.Id">
+					<button type="submit" class="btn btn-danger">Убрать из корзины</button>	
+				</form>
+			</div>
+			<hr />
+		}
+	}
+</div>

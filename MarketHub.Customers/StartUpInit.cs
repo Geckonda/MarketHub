@@ -1,6 +1,8 @@
 ﻿using MarketHub.Customers.Service.Implementations;
 using MarketHub.Customers.Service.Interfaces;
 using MarketHub.DAL.Repositories;
+using MarketHub.Domain.Abstractions.Repositories;
+using MarketHub.Domain.Abstractions.Repositories.Bundle;
 using MarketHub.Domain.Abstractions.Repository;
 using MarketHub.Domain.Entities;
 using MarketHub.Service.Implementations;
@@ -16,6 +18,12 @@ namespace MarketHub
             services.AddScoped<IBaseRepository<ProductEntity>, ProductsRepository>();
             services.AddScoped<IBaseRepository<CategoryEntity>, CategoriesRepository>();
             services.AddScoped<IBaseRepository<ReviewEntity>, ReviewsRepository>();
+            services.AddScoped<IBaseRepository<BasketEntity>, BasketsRepository>();
+            services.AddScoped<IBaseRepository<SizeEntity>, SizesRepository>();
+            services.AddScoped<ICustomerItemRepository<BasketEntity>, BasketsRepository>();
+
+            //bundle
+            services.AddScoped<IBasketBundleRepository, BasketsRepository>();
 
         }
         public static void InitialiseServices(this IServiceCollection services)
@@ -24,6 +32,7 @@ namespace MarketHub
             services.AddScoped<ICatalogService, CatalogService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IBasketService, BasketService>();
         }
     }
 }

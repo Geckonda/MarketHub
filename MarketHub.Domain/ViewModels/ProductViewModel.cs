@@ -30,5 +30,6 @@ namespace MarketHub.Domain.ViewModels
 
         //public List<ColorEntity> Colors { get; set; } = new();
         public List<SizeEntity> Sizes { get; set; } = new();
+        public SizeEntity? CurrentSize { get; set; }
     }
 }

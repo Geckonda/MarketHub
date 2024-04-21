@@ -16,9 +16,12 @@ namespace MarketHub.Customers.Service.Implementations
     public class ProductService : IProductService
     {
         private readonly IBaseRepository<ProductEntity> _productRepository;
-        public ProductService(IBaseRepository<ProductEntity> productRepository)
+        private readonly IBaseRepository<SizeEntity> _sizeRepository;
+        public ProductService(IBaseRepository<ProductEntity> productRepository,
+            IBaseRepository<SizeEntity> sizeRepository)
         {
             _productRepository = productRepository;
+            _sizeRepository = sizeRepository;
         }
         private ProductViewModel GetModelFromEntity(ProductEntity entity)
         {
@@ -56,6 +59,43 @@ namespace MarketHub.Customers.Service.Implementations
                     return baseResponse;
                 }
                 baseResponse.Data = GetModelFromEntity(entity);
+                baseResponse.Data.CurrentSize = baseResponse.Data.Sizes.Where(x => x.Amount > 0).FirstOrDefault();
+                baseResponse.StatusCode = StatusCode.Ok;
+                return baseResponse;
+
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ProductViewModel>()
+                {
+                    Description = $"[ProductService | GetProduct]: {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError,
+                    ErrorForUser = "Не удалось найти товар"
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<ProductViewModel>> GetProductBySize(int id, int sizeId)
+        {
+            var baseResponse = new BaseResponse<ProductViewModel>();
+            try
+            {
+                var entity = await _productRepository.GetOne(id);
+                if (entity == null)
+                {
+                    baseResponse.Description = "Товар не найден";
+                    baseResponse.StatusCode = StatusCode.NotFound;
+                    return baseResponse;
+                }
+                var size = await _sizeRepository.GetOne(sizeId);
+                if (size == null || size.ProductId != id)
+                {
+                    baseResponse.Description = "Товар не найден";
+                    baseResponse.StatusCode = StatusCode.NotFound;
+                    return baseResponse;
+                }
+                baseResponse.Data = GetModelFromEntity(entity);
+                baseResponse.Data.CurrentSize = size;
                 baseResponse.StatusCode = StatusCode.Ok;
                 return baseResponse;
 

@@ -17,11 +17,11 @@ const sizes = document.querySelectorAll(".product__size-icon");
         x.classList.add("product__size-icon_absent");
 });
 
-for (let i = 0; i < [...sizes].length; i++) {
-    size = [...sizes][i];
-    if (size.getAttribute("data-size-amount") != 0) {
-        size.classList.add("product__size-icon_active");
-        sizeLabel.textContent = size.textContent;
-        break;
-    }
-}
+//for (let i = 0; i < [...sizes].length; i++) {
+//    size = [...sizes][i];
+//    if (size.getAttribute("data-size-amount") != 0) {
+//        size.classList.add("product__size-icon_active");
+//        sizeLabel.textContent = size.textContent;
+//        break;
+//    }
+//}

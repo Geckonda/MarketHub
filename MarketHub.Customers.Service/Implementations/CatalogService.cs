@@ -30,8 +30,12 @@ namespace MarketHub.Service.Implementations
             {
                 var data = new CatalogViewModel();
                 var products = await _productsRepository.GetAll();
-                var categories = await _categoryRepository.GetAll();
-                data.Products = products!.OrderBy(x => Guid.NewGuid()).Take(8).ToList();
+                var categories = _categoryRepository.GetAll().Result!.OrderBy(x => Guid.NewGuid()).Take(2).ToList();
+                var listA = products!.Where(x => x.Subcategory!.CategoryId == categories!.First().Id).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
+                var listB = products!.Where(x => x.Subcategory!.CategoryId == categories!.Last().Id).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
+                data.Products = listA.Union(listB).ToList();
+
+                //data.Products = products!.OrderBy(x => Guid.NewGuid()).Take(8).ToList();
                 data.Categories = categories!;
                 baseResponse.Data = data;
                 baseResponse.StatusCode = StatusCode.Ok;
@@ -41,7 +45,7 @@ namespace MarketHub.Service.Implementations
             {
                 return new BaseResponse<CatalogViewModel>()
                 {
-                    Description = $"[ICatalogService | GetCatalog]: {ex.Message}",
+                    Description = $"[CatalogService | GetCatalog]: {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
                     ErrorForUser = "Не удалось добавить книгу"
                 };

@@ -20,5 +20,15 @@ namespace MarketHub.Customers.Controllers
             }
             return RedirectToAction("Error");
         }
+        [HttpGet]
+        public async Task<IActionResult> GetProductBySize(int id, int sizeId)
+        {
+            var response = await _productService.GetProductBySize(id, sizeId);
+            if (response.StatusCode == Domain.Enums.StatusCode.Ok)
+            {
+                return View("GetProduct", response!.Data);
+            }
+            return RedirectToAction("Error");
+        }
     }
 }
