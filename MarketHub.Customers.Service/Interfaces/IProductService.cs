@@ -11,6 +11,6 @@ namespace MarketHub.Customers.Service.Interfaces
     public interface IProductService
     {
         Task<IBaseResponse<ProductViewModel>> GetProduct(int id);
-        Task<IBaseResponse<ProductViewModel>> GetProductBySize(int id, int sizeId);
+        Task<IBaseResponse<ProductViewModel>> GetProductBySize(int id, int sizeId, int? customerId);
     }
 }

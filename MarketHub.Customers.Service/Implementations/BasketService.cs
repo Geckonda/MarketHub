@@ -112,9 +112,13 @@ namespace MarketHub.Customers.Service.Implementations
 					};
 					await _basketRepository.AddProductToBasket(bp);
 				}
+                else if(productsCount == 0)
+                {
+                    await _basketRepository.RemoveProductFromBasket(entity!.Id, productId, sizeId);
+                }
                 else
                 {
-                    await _basketRepository.EditBasket(basket.Id, productsCount + basket.ProductsCount);
+                    await _basketRepository.EditBasket(basket.Id, productsCount);
                 }
                 response.Data = true;
                 response.StatusCode = StatusCode.Ok;
@@ -141,9 +145,12 @@ namespace MarketHub.Customers.Service.Implementations
                 var basket = await _basketRepository.GetOneByCustomerId(customerId);
                 var count = basket!.BasketProducts
                     .Where(x => x.ProductId == productId && x.SizeId == sizeId)
-                    .Select(x => x.Product!.Amount).FirstOrDefault(); //не работает
+                    .Select(x => x.ProductsCount).FirstOrDefault() - productCount; //не работает
 
-                await _basketRepository.RemoveSeveralProductFromBasket(basket.Id, productId, sizeId, (int)count);
+                if(count > 0)
+                    await _basketRepository.RemoveSeveralProductFromBasket(basket.Id, productId, sizeId, (int)count);
+                else
+                    await _basketRepository.RemoveProductFromBasket(basket!.Id, productId, sizeId);
                 response.Data = true;
                 response.StatusCode = StatusCode.Ok;
                 response.Description = "Товар убран из корзины";

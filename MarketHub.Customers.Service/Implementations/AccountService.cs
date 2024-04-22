@@ -1,4 +1,5 @@
-﻿using MarketHub.Domain.Abstractions.Repository;
+﻿using MarketHub.Domain.Abstractions.Repositories.Bundle;
+using MarketHub.Domain.Abstractions.Repository;
 using MarketHub.Domain.Entities;
 using MarketHub.Domain.Enums;
 using MarketHub.Domain.Helpers;
@@ -19,13 +20,16 @@ namespace MarketHub.Service.Implementations
     public class AccountService : IAccountService
     {
         private readonly IBaseRepository<CustomerEntity> _userRepository;
+        private readonly IBasketBundleRepository _basketRepository;
         private readonly ILogger<AccountService> _logger;
 
         public AccountService(IBaseRepository<CustomerEntity> userRepository,
+            IBasketBundleRepository basketRepository,
             ILogger<AccountService> logger)
         {
             _userRepository = userRepository;
             _logger = logger;
+            _basketRepository = basketRepository;
         }
         public async Task<UserEntity?> GetUser(int id)
         {
@@ -104,7 +108,8 @@ namespace MarketHub.Service.Implementations
                 };
                 await _userRepository.Add(user);
                 var result = Authenticate(user);
-
+                var basket = new BasketEntity() { CustomerId = user.Id };
+                await _basketRepository.Add(basket);
                 return new BaseResponse<ClaimsIdentity>()
                 {
                     Data = result,

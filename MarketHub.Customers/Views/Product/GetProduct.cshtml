@@ -76,11 +76,28 @@
         <div class="product__panel">
             <div class="product__operation">
                 <h2 class="product__price">@Model.Price₽</h2>
-                <form asp-controller="Basket" asp-action="AddProductToBasket" method="post" asp-route-productId="@Model.Id" asp-route-sizeId="@Model.CurrentSize.Id">
-                    <input name="productsCount" type="number" min="1" max="@Model.CurrentSize!.Amount" value="" required />
-                    <button type="submit" class="basket-btn">Добавить в корзину</button>
-                </form>
-                <div class="product__amount"><img src="~/img/Product/sfdsf.png" alt=""> В наличии <span id="amount">@Model.CurrentSize.Amount</span></div>
+                @if (User.Identity!.IsAuthenticated)
+                {
+
+                    <form asp-controller="Basket" asp-action="AddProductToBasket" method="post" asp-route-productId="@Model.Id" asp-route-sizeId="@Model.CurrentSize.Id">
+                        @if (@Model.CurrentBasket != null)
+                        {
+                            <button id="minus-btn" class="plus" type="submit" class="basket-btn">-</button>
+                            <input id="product-count" class="input-field" name="productsCount" type="number" min="0" max="@Model.CurrentSize!.Amount" value="@Model.CurrentBasket.ProductsCount" onkeypress="return false;" required />
+                            <button id="plus-btn"  class="minus" type="submit" class="basket-btn">+</button>
+                        }
+                        else
+                        {
+                            <input name="productsCount" type="number" min="1" max="@Model.CurrentSize!.Amount" value="1" hidden required />
+                            <button type="submit" class="basket-btn">Добавить в корзину</button>
+                        }
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="basket-btn" style="text-align: center;">Добавить в корзину</a>
+                }
+                <div class="product__amount"><img src="~/img/Product/sfdsf.png" alt=""> В наличии <span id="amount">@Model.CurrentSize!.Amount</span></div>
             </div>
             <div class="product__seller">
                 <img src="~/img/Product/uikkyuj.png" alt="@Model.Seller!.Name">
@@ -150,4 +167,5 @@
 @section Scripts {
     <script src="~/js/Product/size.js"></script>
     <script src="~/js/Product/review.js"></script>
+    <script src="~/js/Product/basket.js"></script>
 }

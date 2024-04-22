@@ -1,8 +1,11 @@
 ﻿@model BasketViewModel
+@section Styles {
 
+	<link rel="stylesheet" href="~/css/Basket/basket.css" asp-append-version="true" />
+}
 <div class="container">
-	<h1>Корзина</h1>
-	@if(Model.Products.Count == 0)
+	<h1>Корзина (@Model.BasketProducts.Count)</h1>
+	@if (Model.BasketProducts.Count == 0)
 	{
 		<h2>Корзина пуста</h2>
 	}
@@ -11,12 +14,14 @@
 
 		@foreach(var bp in Model.BasketProducts)
 		{
-			<div>
-				<h4 class="product__title">@bp.Product!.Name</h4>
-				<img src="@bp.Product.Img" style="width:100px; height:120px; object-fit:cover;" alt="Alternate Text" />
-				<p class="product__price">@bp.Product!.Price</p>
-				<p class="product__price">@bp.Size!.Name</p>
-				<p class="product__price">@bp.ProductsCount</p>
+			<div class="product">
+				<img src="@bp.Product.Img" class="product__img" style="width:100px; height:120px; object-fit:cover;" alt="Alternate Text" />
+				<div class="product__info">
+					<h4 class="product__title">@bp.Product!.Name</h4>
+					<p class="product__text">Цена: <b>@bp.Product!.Price₽</b> </p>
+					<p class="product__text">Разммер: <b>@bp.Size!.Name</b></p>
+					<p class="product__text">Количество товара: <b>@bp.ProductsCount</b></p>
+				</div>
 				<form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@bp.ProductId" asp-route-sizeId="@bp.SizeId" asp-route-productsCount="1">
 					<button type="submit" class="btn btn-danger">Убрать из корзины</button>	
 				</form>

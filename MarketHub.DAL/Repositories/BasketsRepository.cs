@@ -110,7 +110,7 @@ namespace MarketHub.DAL.Repositories
 		public async Task RemoveProductFromBasket(int basketId, int productId, int sizeId)
         {
             await _db.BasketsProducts
-                .Where(x => x.Id == basketId
+                .Where(x => x.BasketsId == basketId
                 && x.ProductId == productId
                 && x.SizeId == sizeId)
                 .ExecuteDeleteAsync();

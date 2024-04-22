@@ -17,11 +17,14 @@ namespace MarketHub.Customers.Service.Implementations
     {
         private readonly IBaseRepository<ProductEntity> _productRepository;
         private readonly IBaseRepository<SizeEntity> _sizeRepository;
+        private readonly IBaseRepository<CustomerEntity> _customerRepository;
         public ProductService(IBaseRepository<ProductEntity> productRepository,
-            IBaseRepository<SizeEntity> sizeRepository)
+            IBaseRepository<SizeEntity> sizeRepository,
+            IBaseRepository<CustomerEntity> customerRepository)
         {
             _productRepository = productRepository;
             _sizeRepository = sizeRepository;
+            _customerRepository = customerRepository;
         }
         private ProductViewModel GetModelFromEntity(ProductEntity entity)
         {
@@ -75,7 +78,7 @@ namespace MarketHub.Customers.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<ProductViewModel>> GetProductBySize(int id, int sizeId)
+        public async Task<IBaseResponse<ProductViewModel>> GetProductBySize(int id, int sizeId, int? customerId)
         {
             var baseResponse = new BaseResponse<ProductViewModel>();
             try
@@ -95,6 +98,14 @@ namespace MarketHub.Customers.Service.Implementations
                     return baseResponse;
                 }
                 baseResponse.Data = GetModelFromEntity(entity);
+                if (customerId != null)
+                {
+                    var customer = await _customerRepository.GetOne((int)customerId);
+                    baseResponse.Data.Customer = customer;
+                    baseResponse.Data.CurrentBasket = customer!.Basket!.BasketProducts
+                        .Where(p => p.ProductId == id && p.SizeId == sizeId)
+                        .FirstOrDefault();
+                }
                 baseResponse.Data.CurrentSize = size;
                 baseResponse.StatusCode = StatusCode.Ok;
                 return baseResponse;
