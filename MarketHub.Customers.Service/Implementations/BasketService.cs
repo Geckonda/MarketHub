@@ -133,12 +133,17 @@ namespace MarketHub.Customers.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<bool>> RemoveProductFromBasket(int customerId, int productId)
+        public async Task<IBaseResponse<bool>> RemoveProductFromBasket(int customerId, int productId, int sizeId, int productCount)
         {
             var response = new BaseResponse<bool>();
             try
             {
-                await _basketRepository.RemoveProductFromBasket(customerId, productId);
+                var basket = await _basketRepository.GetOneByCustomerId(customerId);
+                var count = basket!.BasketProducts
+                    .Where(x => x.ProductId == productId && x.SizeId == sizeId)
+                    .Select(x => x.Product!.Amount).FirstOrDefault(); //не работает
+
+                await _basketRepository.RemoveSeveralProductFromBasket(basket.Id, productId, sizeId, (int)count);
                 response.Data = true;
                 response.StatusCode = StatusCode.Ok;
                 response.Description = "Товар убран из корзины";

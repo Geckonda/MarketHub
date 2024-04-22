@@ -17,9 +17,9 @@
 				<p class="product__price">@bp.Product!.Price</p>
 				<p class="product__price">@bp.Size!.Name</p>
 				<p class="product__price">@bp.ProductsCount</p>
-				@* <form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@product.Id">
+				<form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@bp.ProductId" asp-route-sizeId="@bp.SizeId" asp-route-productsCount="1">
 					<button type="submit" class="btn btn-danger">Убрать из корзины</button>	
-				</form> *@
+				</form>
 			</div>
 			<hr />
 		}

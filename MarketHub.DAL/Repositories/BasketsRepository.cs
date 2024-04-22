@@ -107,14 +107,24 @@ namespace MarketHub.DAL.Repositories
 				.FirstOrDefaultAsync();
 		}
 
-		public async Task RemoveProductFromBasket(int customerId, int productId)
+		public async Task RemoveProductFromBasket(int basketId, int productId, int sizeId)
         {
-            var basket = await _db.Baskets.Where(x => x.CustomerId == customerId)
-                .Include (b => b.Products)
-                .FirstOrDefaultAsync();
-            var product = await _db.Products.Where(x => x.Id == productId).FirstOrDefaultAsync();
-            basket!.Products.Remove(product!);
+            await _db.BasketsProducts
+                .Where(x => x.Id == basketId
+                && x.ProductId == productId
+                && x.SizeId == sizeId)
+                .ExecuteDeleteAsync();
             await _db.SaveChangesAsync();
+        }
+
+        public async Task RemoveSeveralProductFromBasket(int basketId, int productId, int sizeId, int productCount)
+        {
+            var basket = await _db.BasketsProducts
+                .Where(x => x.BasketsId == basketId
+                && x.ProductId == productId
+                && x.SizeId == sizeId)
+                .ExecuteUpdateAsync(x =>
+                    x.SetProperty(x => x.ProductsCount, productCount));
         }
 
         public Task Update(BasketEntity entity)

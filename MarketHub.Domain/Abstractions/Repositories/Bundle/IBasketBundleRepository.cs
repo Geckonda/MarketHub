@@ -16,6 +16,7 @@ namespace MarketHub.Domain.Abstractions.Repositories.Bundle
         public Task<BasketEntityProductEntity> GetOneBySizeId(int basketId, int productId, int sizeId);
         public Task EditBasket(int id, int productCount);
         public Task AddProductToBasket(BasketEntityProductEntity bp);
-        public Task RemoveProductFromBasket(int customerId, int productId);
+        public Task RemoveProductFromBasket(int basketId, int productId, int sizeId);
+        public Task RemoveSeveralProductFromBasket(int basketId, int productId, int sizeId, int productCount);
     }
 }
