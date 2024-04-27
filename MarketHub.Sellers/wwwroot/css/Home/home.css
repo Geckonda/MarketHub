@@ -1,3 +1,10 @@
+a{
+    text-decoration: none;
+    outline: none;
+}
+a:hover{
+    color: #fff;
+}
 .home__admin-panel{
 }
 .admin-panel{
