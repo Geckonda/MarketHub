@@ -1,0 +1,55 @@
+﻿a{
+    color: black;
+    text-decoration: none;
+}
+a:hover{
+    color:#122D5C;
+}
+.edit-container{
+    width: 50%;
+}
+.edit-panel__input-group{
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 49%;
+    padding: 5px 10px;
+}
+.edit-panel__input-group input{
+    background: transparent;
+    border: 0;
+    outline: none;
+}
+#edit-panel__button{
+    width: 100%;
+    background: #122D5C;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 24px;
+    height: 64px;
+    margin-top: 10px;
+}
+table{
+    width: 100%;
+}
+thead th{
+    text-align: center;
+}
+.t-border{
+    border-bottom: 1px solid black;
+    text-align: center;
+    font-weight: normal;
+}
+table input[type="number"],
+table input[type="submit"]
+{
+    
+    background: transparent;
+    border: 1px solid black;
+    padding: 5px 20px;
+    border-radius: 10px;
+    outline: none;
+}
+.delete-btn{
+}
