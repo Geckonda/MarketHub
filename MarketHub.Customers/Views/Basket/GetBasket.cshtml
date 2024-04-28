@@ -11,22 +11,44 @@
 	}
 	else
 	{
-
-		@foreach(var bp in Model.BasketProducts)
-		{
-			<div class="product">
-				<img src="@bp.Product.Img" class="product__img" style="width:100px; height:120px; object-fit:cover;" alt="Alternate Text" />
-				<div class="product__info">
-					<h4 class="product__title">@bp.Product!.Name</h4>
-					<p class="product__text">Цена: <b>@bp.Product!.Price₽</b> </p>
-					<p class="product__text">Разммер: <b>@bp.Size!.Name</b></p>
-					<p class="product__text">Количество товара: <b>@bp.ProductsCount</b></p>
-				</div>
-				<form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@bp.ProductId" asp-route-sizeId="@bp.SizeId" asp-route-productsCount="1">
-					<button type="submit" class="btn btn-danger">Убрать из корзины</button>	
-				</form>
+		<form action="#" id="makeOrderForm"></form>
+		<div class="basket-container">
+			<div class="product-container">
+				@foreach(var bp in Model.BasketProducts)
+				{
+						<div class="product">
+							<input type="checkbox" id="product-@bp.Id" class="productToBasket" value="" data-price="@bp.Product!.Price" data-amount="@bp.ProductsCount" form="makeOrderForm" checked>
+							<label for="product-@bp.Id">
+								<img src="@bp.Product!.Img" class="product__img" alt="@bp.Product.Name" />
+							</label>
+							<div class="product__info">
+							<a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@bp.Product!.Id" asp-route-sizeId="@bp.Size!.Id" class="product-card">
+									<h4 class="product__title">@bp.Product!.Name <span>(@bp.Size!.Name)</span></h4>
+								</a>
+								<form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@bp.ProductId" asp-route-sizeId="@bp.SizeId" asp-route-productsCount="1">
+									<button type="submit" class="basket-btn"><img src="/img/icons/delete.png" alt="delete"></button>
+								</form>
+							</div>
+							<div class="product__price">@bp.Product.Price ₽</div>
+							<div class="product__amount-panel">
+								<div class="minus basket-btn btn" data-bpId="product-count-@bp.Id">&minus;</div>
+								<input id="product-count-@bp.Id" class="input-field" name="productsCount" type="number" min="0" max="@bp.Product.Sizes.Where(x => x.Id == bp.SizeId).First().Amount" data-bpId="@bp.Id" data-productId="@bp.ProductId" data-sizeId="@bp.SizeId" value="@bp.ProductsCount" onkeypress="return false;" required />
+								<div class="plus basket-btn" data-bpId="product-count-@bp.Id">&plus;</div>
+							</div>
+						</div>
+				}
 			</div>
-			<hr />
-		}
+			
+			<div class="basket__operation opearation">
+				<h4 class="operation__title">Ваша корзина</h4>
+				<p class="operation__products-count">Товары <span id="products-count"></span></p>
+				<p class="operation__sum">Итого: <span id="sum"></span> ₽</p>
+				<button class="opeation__make-order-btn" type="submit" form="makeOrderForm">Перейти к оформлению</button>
+		  </div>
+		</div>
+		
 	}
 </div>
+@section Scripts {
+	<script src="~/js/Basket/basket.js"></script>
+}

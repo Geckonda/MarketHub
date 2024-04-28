@@ -79,19 +79,21 @@
                 @if (User.Identity!.IsAuthenticated)
                 {
 
-                    <form asp-controller="Basket" asp-action="AddProductToBasket" method="post" asp-route-productId="@Model.Id" asp-route-sizeId="@Model.CurrentSize.Id">
                         @if (@Model.CurrentBasket != null)
                         {
-                            <button id="minus-btn" class="plus" type="submit" class="basket-btn">-</button>
-                            <input id="product-count" class="input-field" name="productsCount" type="number" min="0" max="@Model.CurrentSize!.Amount" value="@Model.CurrentBasket.ProductsCount" onkeypress="return false;" required />
-                            <button id="plus-btn"  class="minus" type="submit" class="basket-btn">+</button>
+                            <div>
+                                <button id="minus-btn" class="plus" class="basket-btn">-</button>
+                                <input id="product-count" class="input-field" name="productsCount" type="number" min="0" max="@Model.CurrentSize!.Amount" data-productId="@Model.CurrentBasket.ProductId" data-sizeId="@Model.CurrentSize.Id" value="@Model.CurrentBasket.ProductsCount" onkeypress="return false;" required />
+                                <button id="plus-btn" class="minus" class="basket-btn">+</button>
+                            </div>
                         }
                         else
                         {
-                            <input name="productsCount" type="number" min="1" max="@Model.CurrentSize!.Amount" value="1" hidden required />
-                            <button type="submit" class="basket-btn">Добавить в корзину</button>
+                            <form asp-controller="Basket" asp-action="FirstAddProductToBasket" method="post" asp-route-productId="@Model.Id" asp-route-sizeId="@Model.CurrentSize.Id">
+                                <input name="productsCount" type="number" min="1" max="@Model.CurrentSize!.Amount" value="1" hidden required />
+                                <button type="submit" class="basket-btn">Добавить в корзину</button>
+                            </form>
                         }
-                    </form>
                 }
                 else
                 {

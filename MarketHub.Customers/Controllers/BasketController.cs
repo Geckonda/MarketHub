@@ -1,4 +1,5 @@
 ﻿using MarketHub.Customers.Service.Interfaces;
+using MarketHub.Domain.jsonRequest;
 using MarketHub.Domain.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +24,23 @@ namespace MarketHub.Customers.Controllers
             return RedirectToAction("Error");
         }
         [HttpPost]
-        public async Task<IActionResult> AddProductToBasket(int productId, int sizeId, int productsCount)
+        //public async Task<IActionResult> AddProductToBasket(int productId, int sizeId, int productsCount)
+        public async Task<bool> AddProductToBasket([FromBody] BasketInput basketInput)
         {
-            var response = await _basketService.AddProductToBasket(GetUserId(), productId, sizeId, productsCount);
+            var response = await _basketService.AddProductToBasket(GetUserId(), basketInput.productId, basketInput.sizeId, basketInput.productsCount);
             if(response.StatusCode == Domain.Enums.StatusCode.Ok)
-                return RedirectToRoute(new { controller = "Product", action = "GetProductBySize", id = productId, sizeId = sizeId });
-            return RedirectToAction("Error");
+                return response.Data;
+            return response.Data;
         }
-        [HttpPost]
+		[HttpPost]
+        public async Task<IActionResult> FirstAddProductToBasket(int productId, int sizeId, int productsCount)
+        {
+			var response = await _basketService.AddProductToBasket(GetUserId(), productId, sizeId, productsCount);
+			if (response.StatusCode == Domain.Enums.StatusCode.Ok)
+				return RedirectToRoute(new { controller = "Product", action = "GetProductBySize", id = productId, sizeId = sizeId });
+			return RedirectToAction("Error");
+		}
+		[HttpPost]
         public async Task<IActionResult> RemoveProductFromBasket(int productId, int sizeId, int productsCount)
         {
             var response = await _basketService.RemoveProductFromBasket(GetUserId(), productId, sizeId, productsCount);
