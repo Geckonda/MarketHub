@@ -13,11 +13,8 @@ textArea.addEventListener("input", () => {
 btn.addEventListener("click", postData);
 
 async function postData() {
-    // url = "https://192.168.31.97:5001/Review/AddReview";
-    //url = "https://localhost:5001/Review/AddReview";
-    //url = "https://market-hub.ru/Review/AddReview";
-    url = "/Review/AddReview";
-    //url = "https://192.168.31.178:5001/Review/AddReview";
+    url = "https://market-hub.ru/Review/AddReview";
+    //url = "/Review/AddReview";
     data = {
         customerId: btn.getAttribute("data-customerId"),
         productId: btn.getAttribute("data-productId"),

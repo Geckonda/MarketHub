@@ -13,13 +13,13 @@
             <button type="button" class="admin-panel__button" data-bs-toggle="modal" data-bs-target="#categories-modal">
                 Добавить товар
             </button>
-            <button class="admin-panel__button">Новости</button>
+            <button class="admin-panel__button">Скоро</button>
             <a asp-controller="Product" asp-action="GetSellerProducts" class="admin-panel__button">Посмотреть свои товары</a>
-            <button class="admin-panel__button">Техническая поддержка</button>
-            <button class="admin-panel__button">Заказы</button>
-            <button class="admin-panel__button">Посмотреть</button>
-            <button class="admin-panel__button">Посмотреть</button>
-            <button class="admin-panel__button">Посмотреть</button>
+            <button class="admin-panel__button">Скоро</button>
+            <button class="admin-panel__button">Заказы (Скоро)</button>
+            <button class="admin-panel__button">Скоро</button>
+            <button class="admin-panel__button">Скоро</button>
+            <button class="admin-panel__button">Скоро</button>
         </div>
     </div>
     
@@ -28,7 +28,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Выберите категорию</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -36,14 +36,10 @@
                     @foreach (var category in Model.Categories!)
                     {
                         <li>
-                            <a asp-controller="Product" asp-action="CreateProduct" asp-route-category="@category.Id">@category.Name</a>
+                            <a asp-controller="Product" asp-action="CreateProduct" asp-route-category="@category.Id" class="modal-link">@category.Name</a>
                         </li>
                     }
                     </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

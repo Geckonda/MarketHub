@@ -68,8 +68,8 @@ pluses.forEach(x => {
 
 
 async function postData(input) {
-    url = "/Basket/AddProductToBasket";
-    //url = "https://192.168.31.178:5001/Review/AddReview";
+    //url = "/Basket/AddProductToBasket";
+    url = "https://market-hub.ru/Basket/AddProductToBasket";
     data = {
         productId: input.getAttribute("data-productId"),
         sizeId: input.getAttribute("data-sizeId"),

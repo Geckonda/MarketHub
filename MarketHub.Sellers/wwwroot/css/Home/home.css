@@ -5,7 +5,14 @@ a{
 a:hover{
     color: #fff;
 }
-.home__admin-panel{
+.modal-link{
+
+}
+.modal-link:hover {
+    color: #122D5C;
+}
+.home__admin-panel {
+    color: black;
 }
 .admin-panel{
 }
