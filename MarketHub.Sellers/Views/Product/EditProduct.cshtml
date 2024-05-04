@@ -1,11 +1,14 @@
 ﻿@model SellerProductViewModel
+@{
+    ViewData["Title"] = "Редактирование товара";
+}
 @section Styles {
 
     <link rel="stylesheet" href="~/css/Product/create.css" asp-append-version="true" />
 }
 
 <div class="container">
-    <h1 class="mb-3">Добавление товара</h1>
+    <h1 class="mb-3">Редактирование товара</h1>
     <form class="input-panel" autocomplete="on" method="post" asp-controller="Product" asp-action="EditProduct" enctype="multipart/form-data">
         <div class="input-panel__column">
             <h4 class="input__title">Детали товара</h4>
