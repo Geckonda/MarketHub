@@ -7,30 +7,22 @@
 	<link rel="stylesheet" href="~/css/Basket/basket.css" asp-append-version="true" />
 }
 <div class="container">
-	<h1>Корзина (@Model.BasketProducts.Count)</h1>
-	@if (Model.BasketProducts.Count == 0)
-	{
-		<h2>Корзина пуста</h2>
-	}
-	else
-	{
+	<h1>Корзина <span>(@Model.BasketProducts.Count)</span></h1>
 		<form action="#" id="makeOrderForm"></form>
 		<div class="basket-container">
 			<div class="product-container">
 				@foreach(var bp in Model.BasketProducts)
 				{
-						<div class="product">
+						<div class="product" id="productCard-@bp.Id">
 							<input type="checkbox" id="product-@bp.Id" class="productToBasket" value="" data-price="@bp.Product!.Price" data-amount="@bp.ProductsCount" form="makeOrderForm" checked>
 							<label for="product-@bp.Id">
 								<img src="@bp.Product!.Img" class="product__img" alt="@bp.Product.Name" />
 							</label>
 							<div class="product__info">
-							<a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@bp.Product!.Id" asp-route-sizeId="@bp.Size!.Id" class="product-card">
-									<h4 class="product__title">@bp.Product!.Name <span>(@bp.Size!.Name)</span></h4>
+								<a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@bp.Product!.Id" asp-route-sizeId="@bp.Size!.Id" class="product-card">
+										<h4 class="product__title">@bp.Product!.Name <span>(@bp.Size!.Name)</span></h4>
 								</a>
-								<form asp-controller="Basket" asp-action="RemoveProductFromBasket" method="post" asp-route-productId="@bp.ProductId" asp-route-sizeId="@bp.SizeId" asp-route-productsCount="1">
-									<button type="submit" class="basket-btn"><img src="/img/icons/delete.png" alt="delete"></button>
-								</form>
+								<button type="submit" data-productId="@bp.ProductId" data-sizeId="@bp.SizeId" data-productCardId="productCard-@bp.Id" class="basket-btn delete-btn"><img src="/img/icons/delete.png" alt="delete"></button>
 							</div>
 							<div class="product__price">@bp.Product.Price ₽</div>
 							<div class="product__amount-panel">
@@ -49,8 +41,6 @@
 				<button class="opeation__make-order-btn" type="submit" form="makeOrderForm">Перейти к оформлению</button>
 		  </div>
 		</div>
-		
-	}
 </div>
 @section Scripts {
 	<script src="~/js/Basket/basket.js"></script>

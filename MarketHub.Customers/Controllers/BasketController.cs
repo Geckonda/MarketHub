@@ -41,12 +41,12 @@ namespace MarketHub.Customers.Controllers
 			return RedirectToAction("Error");
 		}
 		[HttpPost]
-        public async Task<IActionResult> RemoveProductFromBasket(int productId, int sizeId, int productsCount)
+        public async Task<bool> RemoveProductFromBasket([FromBody] BasketInput basketInput)
         {
-            var response = await _basketService.RemoveProductFromBasket(GetUserId(), productId, sizeId, productsCount);
+            var response = await _basketService.RemoveProductFromBasket(GetUserId(), basketInput.productId, basketInput.sizeId);
             if (response.StatusCode == Domain.Enums.StatusCode.Ok)
-                return RedirectToRoute(new { controller = "Basket", action = "GetBasket", id = GetUserId() });
-            return RedirectToAction("Error");
-        }
+				return response.Data;
+			return response.Data;
+		}
     }
 }

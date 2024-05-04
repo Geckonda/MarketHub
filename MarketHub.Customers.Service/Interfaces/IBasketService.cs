@@ -14,6 +14,6 @@ namespace MarketHub.Customers.Service.Interfaces
         Task <IBaseResponse<bool>> DeleteBasket(int basketId, int customerId);
         Task <IBaseResponse<BasketViewModel>> GetBasket(int customerId);
         Task<IBaseResponse<bool>> AddProductToBasket(int customerId, int productId, int sizeId, int productsCount);
-        Task<IBaseResponse<bool>> RemoveProductFromBasket(int customerId, int productId, int sizeId, int productCount);
+        Task<IBaseResponse<bool>> RemoveProductFromBasket(int customerId, int productId, int sizeId);
     }
 }

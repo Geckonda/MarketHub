@@ -137,20 +137,13 @@ namespace MarketHub.Customers.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<bool>> RemoveProductFromBasket(int customerId, int productId, int sizeId, int productCount)
+        public async Task<IBaseResponse<bool>> RemoveProductFromBasket(int customerId, int productId, int sizeId)
         {
             var response = new BaseResponse<bool>();
             try
             {
                 var basket = await _basketRepository.GetOneByCustomerId(customerId);
-                var count = basket!.BasketProducts
-                    .Where(x => x.ProductId == productId && x.SizeId == sizeId)
-                    .Select(x => x.ProductsCount).FirstOrDefault() - productCount; //не работает
-
-                if(count > 0)
-                    await _basketRepository.RemoveSeveralProductFromBasket(basket.Id, productId, sizeId, (int)count);
-                else
-                    await _basketRepository.RemoveProductFromBasket(basket!.Id, productId, sizeId);
+                await _basketRepository.RemoveProductFromBasket(basket!.Id, productId, sizeId);
                 response.Data = true;
                 response.StatusCode = StatusCode.Ok;
                 response.Description = "Товар убран из корзины";
