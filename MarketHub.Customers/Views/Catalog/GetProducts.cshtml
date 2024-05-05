@@ -1,0 +1,103 @@
+﻿@model CatalogViewModel
+
+@{
+    ViewData["Title"] = "Каталог";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Catalog/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Catalog/GetProducts.css" asp-append-version="true" />
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Home">Главная</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Catalog" asp-route-id="@Model.Subcategory.CategoryId">@Model.Subcategory!.Category!.Name</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @Model.Subcategory!.Name
+        </li>
+    </ol>
+</nav>
+<div class="container">
+    <h1>@Model.Subcategory!.Name</h1>
+    <div class="wrapper-container">
+        <div class="filter-container">
+            <h3>Фильтры</h3>
+            <form method="post" asp-controller="Catalog" asp-action="GetProducts">
+                <input asp-for="Filters.SubcategoryId" type="number" name="SubcategoryId" value="@Model.Subcategory.Id" hidden>
+                <div class="d-flex flex-column">
+                    <label for="ProductName">По названию</label>
+                    <input asp-for="Filters.ProductName" id="ProductName" type="text" name="ProductName" placeholder="Название">
+                </div>
+                <hr />
+                <label for="StartPrice">По цене</label>
+                <div class="d-flex gap-2">
+                    @if(Model.Filters.StartPrice == 0)
+                    {
+                        <input asp-for="Filters.StartPrice" id="StartPrice" type="number" name="StartPrice" placeholder="От" min="0" value="">
+                    }
+                    else
+                    {
+                        <input asp-for="Filters.StartPrice" type="number" name="StartPrice" placeholder="От" min="0" value="@Model.Filters.StartPrice">
+                    }
+                    @if(Model.Filters.EndPrice == 0)
+                    {
+                        <input asp-for="Filters.EndPrice" type="number" name="EndPrice" placeholder="До" min="0" value="">
+                    }
+                    else
+                    {
+
+                        <input asp-for="Filters.EndPrice" type="number" name="EndPrice" placeholder="До" min="0" value="@Model.Filters.EndPrice">
+                    }
+                </div>
+                <hr />
+                <div>
+                    <select asp-for="Filters.Color" name="Color">
+                        <option value="@null">
+                            Выберите
+                        </option>
+                        @foreach (var color in Model.Colors)
+                        {
+                            <option value="@color">
+                                @color
+                            </option>
+                        }
+                    </select>
+                    <hr />
+                </div>
+                <div class="d-flex flex-column align-items-center gap-2">
+                    <button class="main-btn" type="submit">Фильтровать</button>
+                    <a asp-action="GetProducts" asp-controller="Catalog" asp-route-id="@Model.Filters.SubcategoryId" class="main-btn">Сброс</a>
+                </div>
+            </form>
+        </div>
+        <div class="products-container">
+
+            @if(Model.Products.Count == 0)
+            {
+                <h2>Товаров не найдено</h2>
+            }
+            @foreach(var product in Model.Products)
+            {
+                var size = product.Sizes.Where(x => x.Amount > 0).FirstOrDefault();
+                <a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@product.Id" asp-route-sizeId="@size!.Id" class="product-card">
+                    @if (product.Img == "")
+                    {
+                        <img src="/img/Default/default.jpg" class="product-card__img" alt="@product.Name">
+                    }
+                    else
+                    {
+                        <img src="@product.Img" class="product-card__img" alt="@product.Name">
+                    }
+                    <div class="product-card__body">
+                        <h5 class="product-card__title">@product.Name</h5>
+                        <p class="product-card__text">@product.Price₽</p>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>

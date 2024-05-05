@@ -16,7 +16,14 @@
 						<div class="product" id="productCard-@bp.Id">
 							<input type="checkbox" id="product-@bp.Id" class="productToBasket" value="" data-price="@bp.Product!.Price" data-amount="@bp.ProductsCount" form="makeOrderForm" checked>
 							<label for="product-@bp.Id">
-								<img src="@bp.Product!.Img" class="product__img" alt="@bp.Product.Name" />
+								@if (bp.Product!.Img == "")
+								{
+									<img src="/img/Default/default.jpg" class="product__img" alt="@bp.Product.Name" />
+								}
+								else
+								{
+									<img src="@bp.Product!.Img" class="product__img" alt="@bp.Product.Name" />
+								}
 							</label>
 							<div class="product__info">
 								<a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@bp.Product!.Id" asp-route-sizeId="@bp.Size!.Id" class="product-card">

@@ -19,7 +19,7 @@ namespace MarketHub.Controllers
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Catalog");
+                return RedirectToAction("Index", "Home");
             return View();
         }
         [HttpPost]
@@ -33,7 +33,7 @@ namespace MarketHub.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(response.Data!));
 
-                    return RedirectToAction("index", "Catalog");
+                    return RedirectToAction("index", "Home");
                 }
                 ViewBag.Error = response.Description;
             }
@@ -43,7 +43,7 @@ namespace MarketHub.Controllers
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Catalog");
+                return RedirectToAction("Index", "Home");
             return View();
         }
         [HttpPost]
@@ -57,7 +57,7 @@ namespace MarketHub.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(response.Data!));
 
-                    return RedirectToAction("Index", "Catalog");
+                    return RedirectToAction("Index", "Home");
                 }
                 ViewBag.Error = response.Description;
             }
@@ -67,7 +67,7 @@ namespace MarketHub.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Catalog");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,0 +1,63 @@
+﻿.wrapper-container{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 25px;
+    min-height: 500px;
+}
+.filter-container{
+    border: 3px solid #122D5C;
+    border-radius: 10px;
+    padding: 10px;
+    height: max-content;
+}
+h3{
+    text-align: center;
+}
+.products-container{
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(3, max-content);
+}
+input[type="text"], input[type="number"]
+{
+    border: 0px;
+    background: #e0dede;
+    border-radius: 10px;
+    padding: 0 5px;
+}
+input[type="text"], input[type="number"]:focus{
+    outline: none;
+}
+input[type="number"]{
+    text-align: center;
+}
+.main-btn{
+    display: block;
+    background: #122D5C;
+    color: #fff;
+    border-radius: 50px;
+    font-size:20px;
+    padding: 0px 15px;
+    width: max-content;
+    border: 0;
+}
+.main-btn:hover{
+    color: #fff;
+}
+select:focus{
+    outline: none;
+}
+select{
+    width: 100%;
+    border: 0px;
+    padding: 0 5px;
+    border-radius: 10px;
+    background: #e0dede;
+    cursor: pointer;
+}
+option{
+    background: #e0dede;
+    border: 0px;
+    padding: 0 5px;
+    border-radius: 10px;
+}

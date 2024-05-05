@@ -15,10 +15,10 @@
             <a asp-action="Index" asp-controller="Home">Главная</a>
         </li>
         <li class="breadcrumb-item">
-            <a asp-action="Index" asp-controller="Catalog">@Model.Subcategory!.Category!.Name</a>
+            <a asp-action="Index" asp-controller="Catalog" asp-route-id="@Model.Subcategory.CategoryId">@Model.Subcategory!.Category!.Name</a>
         </li>
         <li class="breadcrumb-item">
-            <a asp-action="Index" asp-controller="Catalog">@Model.Subcategory!.Name</a>
+            <a asp-action="GetProducts" asp-controller="Catalog" asp-route-id="@Model.SubcategoryId">@Model.Subcategory!.Name</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
             @Model.Name
@@ -28,7 +28,14 @@
 <div class="product">
     <div class="product__table">
         <div class="product__img">
-            <img src="@Model.Img" alt="..." class="product__img">
+            @if (Model.Img == "")
+            {
+                <img src="/img/Default/default.jpg" class="product-card__img" alt="@Model.Name">
+            }
+            else
+            {
+                <img src="@Model.Img" alt="@Model.Name" class="product__img">
+            }
         </div>
         <div class="product__info info">
             <h3 class="product__name"> @Model.Name</h3>

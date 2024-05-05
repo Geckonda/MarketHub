@@ -1,4 +1,4 @@
-﻿@model CatalogViewModel;
+﻿@model HomeViewModel;
 
 @{
     ViewData["Title"] = "MarketHub";
@@ -21,7 +21,7 @@
         <div class="banner__card">
             <div class="banner__title">MarketHub</div>
             <div class="banner__text">Объединяем моду и комфорт</div>
-            <button class="banner__btn">Перейти в каталог</button>
+            <a asp-action="Index" asp-controller="Catalog"  class="banner__btn">Перейти в каталог</a>
         </div>
         <div class="banner__run-line">MarketHubMarketHub</div>
     </div>
@@ -32,14 +32,21 @@
     {
         <div class="catagories-container">
             <h2>@category.Name ></h2>
-            <div class="d-flex flex-wrap gap-4">
+            <div class="products-container">
                 @foreach (var product in Model.Products)
                 {
                     @if (category.Subcategories.Contains(product.Subcategory!))
                     {
                         var size = product.Sizes.Where(x => x.Amount > 0).FirstOrDefault();
                         <a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@product.Id" asp-route-sizeId="@size!.Id" class="product-card">
-                            <img src="@product.Img" class="product-card__img" alt="@product.Name">
+                            @if(product.Img == "")
+                            {
+                                <img src="/img/Default/default.jpg" class="product-card__img" alt="@product.Name">
+                            }
+                            else
+                            {
+                                <img src="@product.Img" class="product-card__img" alt="@product.Name">
+                            }
                             <div class="product-card__body">
                                 <h5 class="product-card__title">@product.Name</h5>
                                 <p class="product-card__text">@product.Price₽</p>

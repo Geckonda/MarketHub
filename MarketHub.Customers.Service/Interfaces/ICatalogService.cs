@@ -1,5 +1,6 @@
 ﻿using MarketHub.Domain.Abstractions.Responses;
 using MarketHub.Domain.Entities;
+using MarketHub.Domain.Filters;
 using MarketHub.Domain.Response;
 using MarketHub.Domain.ViewModels;
 using System;
@@ -13,6 +14,9 @@ namespace MarketHub.Service.Interfaces
 {
     public interface ICatalogService
     {
-        Task<IBaseResponse<CatalogViewModel>> GetCatalog();
+        Task<IBaseResponse<HomeViewModel>> GetHome();
+        Task<IBaseResponse<CategoryViewModel>> GetCatalog(int categoryId);
+        Task<IBaseResponse<CatalogViewModel>> GetProducts(CatalogFilter filter);
+        
     }
 }

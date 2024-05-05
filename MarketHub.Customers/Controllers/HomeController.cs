@@ -19,7 +19,7 @@ namespace MarketHub.Customers.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var response = await _catalogService.GetCatalog();
+            var response = await _catalogService.GetHome();
             if (response.StatusCode == Domain.Enums.StatusCode.Ok)
                 return View(response.Data!);
             return RedirectToAction("Error");

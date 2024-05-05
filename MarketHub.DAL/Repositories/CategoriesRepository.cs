@@ -32,7 +32,9 @@ namespace MarketHub.DAL.Repositories
 
         public async Task<List<CategoryEntity>?> GetAll()
         {
-            return await _db.Categories.ToListAsync();
+            return await _db.Categories
+                .Include(c => c.Subcategories)
+                .ToListAsync();
         }
 
         public Task<CategoryEntity?> GetOne(int id)

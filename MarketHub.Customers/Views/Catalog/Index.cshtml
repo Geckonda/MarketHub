@@ -1,4 +1,4 @@
-﻿@model CatalogViewModel;
+﻿@model CategoryViewModel;
 
 @{
     ViewData["Title"] = "Каталог";
@@ -8,46 +8,38 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Catalog/style.css" asp-append-version="true" />
 }
-<div class="container banner catalog__banner">
-    <div class="banner__body">
-        <div class="banner__run-line">MarketHubMarketHub</div>
-        <div class="banner__square square">
-            <div class="square__line"></div>
-            <div class="square__text">Найди свой стиль</div>
-            <div class="square__line"></div>
-        </div>
-        <img src="./img/Catalog/male.png" alt="maleImg" class="banner__male">
-        <img src="./img/Catalog/female.png" alt="femaleImg" class="banner__female">
-        <div class="banner__card">
-            <div class="banner__title">MarketHub</div>
-            <div class="banner__text">Объединяем моду и комфорт</div>
-            <button class="banner__btn">Перейти в каталог</button>
-        </div>
-        <div class="banner__run-line">MarketHubMarketHub</div>
-    </div>
-</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Home">Главная</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Каталог
+        </li>
+    </ol>
+</nav>
 
 <div class="container">
-    @foreach (var category in Model.Categories)
-    {
-        <div class="catagories-container">
-            <h2>@category.Name ></h2>
-            <div class="d-flex flex-wrap gap-4">
-                @foreach (var product in Model.Products)
+    <div class="wrapper-container">
+        <div class="category-container">
+            @foreach (var category in Model.Categories)
+            {
+                @if(category.Id == ViewBag.Id)
                 {
-                    @if (category.Subcategories.Contains(product.Subcategory!))
-                    {
-                        var size = product.Sizes.Where(x => x.Amount > 0).FirstOrDefault();
-                        <a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@product.Id" asp-route-sizeId="@size!.Id" class="product-card">
-                            <img src="@product.Img" class="product-card__img" alt="@product.Name">
-                            <div class="product-card__body">
-                                <h5 class="product-card__title">@product.Name</h5>
-                                <p class="product-card__text">@product.Price₽</p>
-                            </div>
-                        </a>
-                    }
+                    <a asp-action="Index" asp-controller="Catalog" asp-route-id="@category.Id" class="link_active">@category.Name</a>
                 }
-            </div>
+                else
+                {
+                    <a asp-action="Index" asp-controller="Catalog" asp-route-id="@category.Id">@category.Name</a>
+                }
+            }
         </div>
-    }
+        <div class="subcategory-container">
+            @foreach (var subcategory in Model.Subcategories.OrderBy(s => s.Name))
+            {
+                <a asp-action="GetProducts" asp-controller="Catalog" asp-route-id="@subcategory.Id">@subcategory.Name</a>
+            }
+        </div>
+    </div>
 </div>
