@@ -146,7 +146,7 @@
                 <div id="customer-reviews">
                 @foreach(var review in Model.Reviews.Take(5).ToList())
                 {
-                    <div class="review">
+                    <div class="review" id="r-@review.Id">
                         <div class="review__header">
                             <h5 class="review__customer-name">@review.Customer!.Name</h5>
                             <div class="review-info__stars-block">
@@ -164,8 +164,7 @@
                             {
                                 @if(User.FindFirst("userId").Value == review.Customer.Id.ToString())
                                 {
-                                    <a class="btn btn-success" href="#">Редактировать</a>
-                                    <a class="btn btn-danger" href="#">Удалить</a>
+                                    <button id="review__delete-btn" data-reviewId="r-@review.Id" data-productId="@Model.Id" data-customerId="@User.FindFirst("userId").Value" class="btn btn-danger">Удалить</button>
                                 }
                             }
                     </div>

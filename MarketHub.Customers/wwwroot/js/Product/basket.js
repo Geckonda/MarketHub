@@ -2,6 +2,8 @@
 const plus = document.getElementById("plus-btn");
 const productCount = document.getElementById("product-count");
 const amount = document.getElementById("amount");
+
+if (minus != null)
 minus.addEventListener("click",  () => {
     if (+(productCount.value) - 1 >= 0) {
         productCount.value--;
@@ -9,6 +11,7 @@ minus.addEventListener("click",  () => {
     }
 })
 
+if(plus != null)
 plus.addEventListener("click", () => {
     if (+(productCount.value) + 1 <= +(amount.textContent)) {
         productCount.value++;

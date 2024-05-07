@@ -25,9 +25,11 @@ namespace MarketHub.Customers.Service.Implementations
             var baseRespone = new BaseResponse<bool>();
             try
             {
-                //var reviews =  await _reviewRepository.GetAll();
-                //reviews = reviews.Where(x => x.CustomerId == customerId && x.ProductId == productId).ToList();
-                var review = new ReviewEntity
+                var reviews = await _reviewRepository.GetAll();
+                var review = reviews.FirstOrDefault(x => x.CustomerId == customerId && x.ProductId == productId);
+                if(review != null)
+                    await _reviewRepository.Delete(review.Id);
+                review = new ReviewEntity
                 {
                     CustomerId = customerId,
                     ProductId = productId,
@@ -35,6 +37,7 @@ namespace MarketHub.Customers.Service.Implementations
                     Stars = stars,
                     Date = DateTime.Now.ToUniversalTime(),
                 };
+
                 await _reviewRepository.Add(review);
                 baseRespone.StatusCode = StatusCode.Ok;
                 baseRespone.Data = true;
@@ -59,8 +62,8 @@ namespace MarketHub.Customers.Service.Implementations
             {
                 var reviews = await _reviewRepository.GetAll();
                 var review = reviews
-                    .Where(x => x.CustomerId == customerId
-                    && x.ProductId == productId).First();
+                    .FirstOrDefault(x => x.CustomerId == customerId
+                    && x.ProductId == productId);
                 if(review == null)
                 {
                     response.Data = false;

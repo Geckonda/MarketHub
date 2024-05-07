@@ -4,17 +4,19 @@ const textArea = document.getElementById("review__value");
 const customerReviews = document.querySelector("#customer-reviews");
 let customerMark = 0;
 
-textArea.addEventListener("input", () => {
-    if (textArea.value === "" || customerMark <= 0)
-        btn.disabled = true;
-    else
-        btn.disabled = false;
-})
-btn.addEventListener("click", postData);
+if (textArea != null)
+    textArea.addEventListener("input", () => {
+        if (textArea.value === "" || customerMark <= 0)
+            btn.disabled = true;
+        else
+            btn.disabled = false;
+    })
+if(btn != null)
+    btn.addEventListener("click", postData);
 
 async function postData() {
-    url = "https://market-hub.ru/Review/AddReview";
-    //url = "/Review/AddReview";
+    //url = "https://market-hub.ru/Review/AddReview";
+    url = "/Review/AddReview";
     data = {
         customerId: btn.getAttribute("data-customerId"),
         productId: btn.getAttribute("data-productId"),
@@ -66,6 +68,7 @@ function makeReviewBlock() {
 
 const starLabelBlock = document.querySelector(".star-label-block");
 const starLabels = [...document.querySelectorAll(".star-label")].reverse();
+if (starLabelBlock != null)
 starLabelBlock.addEventListener("click", (e) => {
     if (e.target.closest(".star-label")) {
         let el = e.target;
@@ -88,4 +91,38 @@ function areaReset() {
     customerMark = 0;
     btn.disabled = true;
     starLabels.forEach(x => x.style.background = '#AEAEAE');
+}
+
+const deleteBtn = document.getElementById("review__delete-btn");
+if (deleteBtn != null)
+    deleteBtn.addEventListener("click", deleteData);
+
+async function deleteData() {
+    //url = "https://market-hub.ru/Review/DeleteReview";
+    url = "/Review/DeleteReview";
+    data = {
+        customerId: btn.getAttribute("data-customerId"),
+        productId: btn.getAttribute("data-productId"),
+    };
+    // Default options are marked with *
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+    deleteReviewBlock(deleteBtn.getAttribute("data-reviewid"));
+    return response.json(); // parses JSON response into native JavaScript objects
+}
+function deleteReviewBlock(reviewId) {
+    let reviewBlock = document.getElementById(reviewId);
+    document.getElementById("customer-reviews")
+        .removeChild(reviewBlock);
 }
