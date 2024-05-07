@@ -6,7 +6,16 @@
 
     <link rel="stylesheet" href="~/css/Product/create.css" asp-append-version="true" />
 }
-
+<nav aria-label="breadcrumb" class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Home">Панель продавца</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Добавление товара
+        </li>
+    </ol>
+</nav>
 <div class="container">
     <h1 class="mb-3">Добавление товара</h1>
     <form class="input-panel" autocomplete="on" method="post" asp-controller="Product" asp-action="CreateProduct" enctype="multipart/form-data">
@@ -38,7 +47,7 @@
             
         
             <div class="input-panel__row">
-                <label asp-for="CoverImage" class="input__title" style="cursor: pointer;">Загрузить картинку товара <img src="~/img/icons/download.png" alt=""></label>
+                <label asp-for="CoverImage" class="input__title" style="cursor: pointer;"><span id="CoverImageLabel">Загрузить картинку товара </span><img src="~/img/icons/download.png" alt="..."></label>
                 <input asp-for="CoverImage" type="file" class="form-control" name="CoverImage" accept="image/*" hidden>
                 <span asp-validation-for="CoverImage" class="text-danger"></span>
             </div>

@@ -1,4 +1,8 @@
-﻿.product__container{
+﻿a{
+    text-decoration: none;
+    color: #000;
+}
+.product__container{
    display: flex;
    flex-direction: column;
    gap: 25px;

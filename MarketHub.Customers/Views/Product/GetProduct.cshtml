@@ -122,7 +122,9 @@
             <div class="reviews__column">
                 @if (!User.Identity!.IsAuthenticated)
                 {
-                    <p>Иди авторизируйся</p>
+                    <div class="alert alert-primary" role="alert">
+                        Чтобы оставить комментарий, необходимо <a asp-controller="Account" asp-action="Login" style="color:inherit; text-decoration: underline;">войти</a> в аккаунт.
+                    </div>
                 }
                 else
                 {

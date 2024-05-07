@@ -10,8 +10,8 @@ namespace MarketHub.Domain.ViewModels
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Укажите Имя")]
-        [MaxLength(20, ErrorMessage = "Имя должен иметь длину не больше 20 символов")]
-        [MinLength(3, ErrorMessage = "Имя должен иметь длину не меньше 3 символов")]
+        [MaxLength(20, ErrorMessage = "Имя должно иметь длину не больше 20 символов")]
+        [MinLength(3, ErrorMessage = "Имя должно иметь длину не меньше 3 символов")]
         [Display(Name = "Имя")]
         public string Name { get; set; } = string.Empty;
 

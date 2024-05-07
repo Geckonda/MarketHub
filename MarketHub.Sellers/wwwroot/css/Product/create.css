@@ -1,4 +1,7 @@
-
+a {
+    text-decoration: none;
+    color: #000;
+}
 
 
 
@@ -18,15 +21,15 @@
 .input__title{
    font-size: 24px;
 }
-input{
-   width: 100%;
-   padding: 10px 0;
-   font-size: 16px;
-   margin-bottom: 30px;
-   border: none;
-   border-bottom: 1px solid #000;
-   outline: none;
-   background: transparent;
+.input-panel__input {
+    margin-bottom: 30px;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
 }
 
 
@@ -108,4 +111,7 @@ form :is(button)
    top: 50%;
    transform: translate(-50%, -50%);
    cursor: pointer;
+}
+#submit:disabled{
+    opacity: 0.7;
 }

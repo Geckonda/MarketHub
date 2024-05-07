@@ -30,7 +30,7 @@
         <div class="user-box">
             <input asp-for="PasswordConfirm" type="password" name="PasswordConfirm" required>
             <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
-            <label asp-for="PasswordConfirm">Пароль</label>
+            <label asp-for="PasswordConfirm">Повторите пароль</label>
         </div>
         @if (ViewBag.Error != null)
         {

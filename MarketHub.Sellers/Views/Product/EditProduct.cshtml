@@ -8,6 +8,19 @@
 }
 
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-action="Index" asp-controller="Home">Главная</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-controller="Product" asp-action="GetSellerProducts">Посмотреть свои товары</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                @Model.Name (Редактирование)
+            </li>
+        </ol>
+    </nav>
     <h1 class="mb-3">Редактирование товара</h1>
     <form class="input-panel" autocomplete="on" method="post" asp-controller="Product" asp-action="EditProduct" enctype="multipart/form-data">
         <div class="input-panel__column">

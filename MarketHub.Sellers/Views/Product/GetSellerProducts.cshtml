@@ -7,8 +7,18 @@
     <link rel="stylesheet" href="~/css/Product/getProduct.css" asp-append-version="true" />
 }
 
-
+<nav aria-label="breadcrumb" class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Home">Панель продавца</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Мои товары
+        </li>
+    </ol>
+</nav>
 <div class="container product__container">
+    <h1>Мои товары</h1>
     @if(Model.Count == 0)
     {
         <h1>Вы еще не добавили товары</h1>

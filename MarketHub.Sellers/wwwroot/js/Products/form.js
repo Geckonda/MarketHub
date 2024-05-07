@@ -7,6 +7,8 @@ const tableBody = document.querySelector(".sizes-table tbody");
 const sizeNameInp = document.getElementById(`size-name`);
 const sizeAmountInp = document.getElementById(`size-amount`);
 
+const coverImage = document.getElementById("CoverImage");
+const coverImageLabel = document.getElementById("CoverImageLabel");
 btn.addEventListener("click", () => {
 
     if (sizeAmountInp.value != "" && sizeNameInp.value != "" && +sizeAmountInp.value > 0) {
@@ -87,58 +89,10 @@ function unDisableButton() {
         submit.disabled = false;
     }
 }
-//const form = document.querySelector("#form-container");
-//let count = 2;
-//let prevInp = document.querySelector(`#color-input-f${count - 1}`);
-
-//prevInp.addEventListener("change", MakeMoreInput);
-
-
-//function MakeMoreInput(e) {
-//    if (e.target.files[0]) {
-//        prevInp.removeEventListener("change", MakeMoreInput);
-
-
-//        const prevLab = document.querySelector(`#color-label-l${count - 1}`);
-
-
-//        prevLab.classList.add("input_active");
-//        prevLab.textContent = "Фото загружено";
-//        const container = document.createElement("div");
-//        const inp = document.createElement("input");
-//        const label = document.createElement("label");
-//        const nameInp = document.createElement("input");
-//        const amountInp = document.createElement("input");
-
-//        //container
-//        container.classList.add("input-container");
-
-//        //input
-//        inp.type = "file";
-//        inp.id = `color-input-f${count}`;
-//        inp.classList.add('file-input');
-//        inp.name = "colors";
-//        //nameInput
-//        nameInp.type = "text";
-//        nameInp.name = "colorNames";
-//        //amountInput
-//        amountInp.type = "number";
-//        amountInp.name = "colorAmount";
-
-//        //label
-//        label.setAttribute("for", `color-input-f${count}`);
-//        label.classList.add("file-label");
-//        label.id = `color-label-l${count}`;
-//        label.textContent = "Загрузить фото";
-
-//        container.appendChild(nameInp);
-//        container.appendChild(amountInp);
-//        container.appendChild(label);
-//        container.appendChild(inp);
-//        form.appendChild(container);
-//        count++;
-//        prevInp = document.querySelector(`#color-input-f${count - 1}`);
-
-//        prevInp.addEventListener("change", MakeMoreInput);
-//    }
-//}
+coverImage.addEventListener("change", () => {
+    if (coverImage.value != "") {
+        console.log(coverImageLabel);
+        coverImageLabel.style.color = "green";
+        coverImageLabel.textContent = "Картинка загружена ";
+    }
+})
