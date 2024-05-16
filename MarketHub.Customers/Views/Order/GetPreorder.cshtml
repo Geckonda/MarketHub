@@ -1,0 +1,15 @@
+﻿@model OrderViewModel
+
+
+<h1>Текущий заказ</h1>
+<div class="container">
+	<h2>Следующие товары</h2>
+	@foreach(var product in Model.Basket.BasketProducts)
+	{
+		<h3>@product.Product.Name</h3>
+		<p>@product.Product.Price</p>
+		<p>@product.ProductsCount</p>
+		<hr />
+	}
+
+</div>

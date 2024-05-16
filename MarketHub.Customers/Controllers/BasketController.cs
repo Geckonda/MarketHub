@@ -48,5 +48,12 @@ namespace MarketHub.Customers.Controllers
 				return response.Data;
 			return response.Data;
 		}
+        [HttpPost]
+        public IActionResult MakeOreder(int[] productsId)
+        {
+            if(productsId.Length > 0)
+				return RedirectToRoute(new { controller = "Order", action = "GetPreorder", productsId = productsId });
+			return RedirectToAction("Error");
+		}
     }
 }

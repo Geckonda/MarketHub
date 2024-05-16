@@ -8,13 +8,13 @@
 }
 <div class="container">
 	<h1>Корзина <span>(@Model.BasketProducts.Count)</span></h1>
-		<form action="#" id="makeOrderForm"></form>
+	<form asp-controller="Basket" asp-action="MakeOreder" id="makeOrderForm">
 		<div class="basket-container">
 			<div class="product-container">
 				@foreach(var bp in Model.BasketProducts)
 				{
 						<div class="product" id="productCard-@bp.Id">
-							<input type="checkbox" id="product-@bp.Id" class="productToBasket" value="" data-price="@bp.Product!.Price" data-amount="@bp.ProductsCount" form="makeOrderForm" checked>
+						<input name="productsId" type="checkbox" id="product-@bp.Id" class="productToBasket" value="@bp.Id" data-price="@bp.Product!.Price" data-amount="@bp.ProductsCount" form="makeOrderForm" checked>
 							<label for="product-@bp.Id">
 								@if (bp.Product!.Img == "")
 								{
@@ -46,8 +46,9 @@
 				<p class="operation__products-count">Товары <span id="products-count"></span></p>
 				<p class="operation__sum">Итого: <span id="sum"></span> ₽</p>
 				<button class="opeation__make-order-btn" type="submit" form="makeOrderForm">Перейти к оформлению</button>
-		  </div>
+			</div>
 		</div>
+	</form>
 </div>
 @section Scripts {
 	<script src="~/js/Basket/basket.js"></script>

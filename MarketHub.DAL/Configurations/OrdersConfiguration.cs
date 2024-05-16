@@ -17,6 +17,9 @@ namespace MarketHub.DAL.Configurations
             builder.Property(or => or.Adress)
                 .HasColumnType("varchar(255)")
                 .IsRequired();
+            builder.Property(or => or.Phone)
+                .HasColumnType("varchar(11)")
+                .IsRequired();
             builder.Property(or => or.Sum)
                 .HasColumnType("money");
             builder.Property(or => or.OrderDate)

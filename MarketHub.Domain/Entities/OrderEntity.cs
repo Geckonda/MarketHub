@@ -12,6 +12,7 @@ namespace MarketHub.Domain.Entities
         public int CustomerId { get; set; }
         public int StatusId { get; set; }
         public string Adress {  get; set; } = string.Empty;
+        public string Phone {  get; set; } = string.Empty;
         public DateTime OrderDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public DateTime ShelfLife { get; set; }
