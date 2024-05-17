@@ -10,6 +10,7 @@ namespace MarketHub.Domain.Enums
     {
         Ok = 200,//Все хорошо
         NotFound = 404,//Страница не найдена
-        InternalServerError = 500//Внутренняя ошибка сервера
+        InternalServerError = 500,//Внутренняя ошибка сервера
+        NotEnoughProductAmount = 1004,//Недостаточно товара у продовца
     }
 }

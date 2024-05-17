@@ -24,10 +24,6 @@ namespace MarketHub.DAL.Configurations
                 .HasColumnType("money");
             builder.Property(or => or.OrderDate)
                 .IsRequired();
-            builder.Property(or => or.DeliveryDate)
-                .IsRequired();
-            builder.Property(or => or.ShelfLife)
-                .IsRequired();
 
 
             builder
@@ -42,7 +38,6 @@ namespace MarketHub.DAL.Configurations
             builder
                 .HasMany(or => or.Products)
                 .WithMany(p => p.Orders);
-
         }
     }
 }

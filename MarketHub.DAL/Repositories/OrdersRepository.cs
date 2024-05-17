@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MarketHub.Domain.Abstractions.Repository;
+using MarketHub.Domain.Abstractions.Repositories.Bundle;
 
 namespace MarketHub.DAL.Repositories
 {
-    internal class OrdersRepository : IBaseRepository<OrderEntity>
+    public class OrdersRepository : IOrderBundleRepository
     {
 
         private readonly MarketHubDbContext _db;
@@ -40,7 +41,16 @@ namespace MarketHub.DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task<OrderEntity?> GetOne(int id)
+		public async Task<OrderEntity?> GetLastCustomerOrder(int customerId)
+		{
+            return await _db.Orders
+				.Include(x => x.Products)
+				.Include(x => x.Customer)
+				.Include(x => x.OrderStatus)
+				.FirstOrDefaultAsync(x => x.CustomerId == customerId);
+		}
+
+		public async Task<OrderEntity?> GetOne(int id)
         {
             return await _db.Orders
                 .Where(x => x.Id == id)

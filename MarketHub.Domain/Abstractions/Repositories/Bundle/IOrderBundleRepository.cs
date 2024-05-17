@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace MarketHub.Domain.Abstractions.Repositories.Bundle
 {
-    public interface IProductBundleRepository:
-        IBaseRepository<ProductEntity>,
-        ISellerItemRepository<ProductEntity>
-    {
-        Task<uint> GetProductAmount(int productId);
-        Task EditProductAmount(int productId, uint amount);
-    }
+	public interface IOrderBundleRepository :
+		IBaseRepository<OrderEntity>
+	{
+		Task<OrderEntity?> GetLastCustomerOrder(int customerId);
+	}
 }

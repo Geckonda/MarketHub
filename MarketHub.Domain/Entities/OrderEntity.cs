@@ -21,6 +21,7 @@ namespace MarketHub.Domain.Entities
         public CustomerEntity? Customer { get; set; }
         public OrderStatusEntity? OrderStatus { get; set; }
         public List<ProductEntity> Products { get; set; } = new();
+		public List<OrderEntityProductEntity> OrdersProducts { get; set; } = new();
 
-    }
+	}
 }

@@ -24,6 +24,28 @@ namespace MarketHub.DAL.Configurations
                 .HasMany(x => x.Orders)
                 .WithOne(x => x.OrderStatus)
                 .HasForeignKey(x => x.StatusId);
-        }
+			builder.HasData(
+				new OrderStatusEntity
+				{
+					Id = 1,
+					Name = "Новый",
+				},
+				new OrderStatusEntity
+				{
+					Id = 2,
+					Name = "Отклонен",
+				},
+				new OrderStatusEntity
+				{
+					Id = 3,
+					Name = "В пути",
+				},
+				new OrderStatusEntity
+				{
+					Id = 4,
+					Name = "Доставлен",
+				}
+				);
+		}
     }
 }

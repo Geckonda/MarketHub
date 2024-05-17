@@ -146,8 +146,8 @@ namespace MarketHub.DAL.Migrations
                     StatusId = table.Column<int>(type: "integer", nullable: false),
                     Adress = table.Column<string>(type: "varchar(255)", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeliveryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ShelfLife = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DeliveryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ShelfLife = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Sum = table.Column<decimal>(type: "money", nullable: false)
                 },
                 constraints: table =>

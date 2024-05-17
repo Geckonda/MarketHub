@@ -3,6 +3,7 @@ using System;
 using MarketHub.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketHub.DAL.Migrations
 {
     [DbContext(typeof(MarketHubDbContext))]
-    partial class MarketHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240517044427_create_OrderEntityProductEntity_table")]
+    partial class create_OrderEntityProductEntity_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +41,7 @@ namespace MarketHub.DAL.Migrations
                     b.HasIndex("CustomerId")
                         .IsUnique();
 
-                    b.ToTable("Baskets", (string)null);
+                    b.ToTable("Baskets");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.BasketEntityProductEntity", b =>
@@ -69,7 +72,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("BasketsProducts", (string)null);
+                    b.ToTable("BasketsProducts");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.CategoryEntity", b =>
@@ -89,7 +92,7 @@ namespace MarketHub.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -130,7 +133,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Colors", (string)null);
+                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.CustomerEntity", b =>
@@ -163,7 +166,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.OrderEntity", b =>
@@ -206,7 +209,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.OrderEntityProductEntity", b =>
@@ -264,7 +267,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrdersProducts", (string)null);
+                    b.ToTable("OrdersProducts");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.OrderStatusEntity", b =>
@@ -284,29 +287,7 @@ namespace MarketHub.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("OrderStatuses", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Новый"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Отклонен"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "В пути"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Доставлен"
-                        });
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.ProductEntity", b =>
@@ -351,7 +332,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.ReviewEntity", b =>
@@ -384,7 +365,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.RoleEntity", b =>
@@ -404,7 +385,7 @@ namespace MarketHub.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -449,7 +430,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Sellers", (string)null);
+                    b.ToTable("Sellers");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.SizeEntity", b =>
@@ -474,7 +455,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Sizes", (string)null);
+                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.SubcategoryEntity", b =>
@@ -499,7 +480,7 @@ namespace MarketHub.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Subcategories", (string)null);
+                    b.ToTable("Subcategories");
 
                     b.HasData(
                         new
@@ -540,7 +521,7 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("OrderEntityProductEntity", (string)null);
+                    b.ToTable("OrderEntityProductEntity");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.BasketEntity", b =>

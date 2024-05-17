@@ -21,12 +21,15 @@ namespace MarketHub
             services.AddScoped<IBaseRepository<ReviewEntity>, ReviewsRepository>();
             services.AddScoped<IBaseRepository<BasketEntity>, BasketsRepository>();
             services.AddScoped<IBaseRepository<CustomerEntity>, CustomersRepository>();
-            services.AddScoped<IBaseRepository<BasketEntityProductEntity>, BasketProductsRepository>();
             services.AddScoped<IBaseRepository<SizeEntity>, SizesRepository>();
+            services.AddScoped<IBaseRepository<BasketEntityProductEntity>, BasketProductsRepository>();
+            services.AddScoped<IBaseRepository<OrderEntityProductEntity>, OrdersProductsRepository>();
             services.AddScoped<ICustomerItemRepository<BasketEntity>, BasketsRepository>();
 
             //bundle
             services.AddScoped<IBasketBundleRepository, BasketsRepository>();
+            services.AddScoped<IOrderBundleRepository, OrdersRepository>();
+            services.AddScoped<IProductBundleRepository, ProductsRepository>();
 
         }
         public static void InitialiseServices(this IServiceCollection services)

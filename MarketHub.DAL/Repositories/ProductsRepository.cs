@@ -108,7 +108,15 @@ namespace MarketHub.DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task Update(ProductEntity entity)
+		public async Task<uint> GetProductAmount(int productId)
+		{
+            return await _db.Products
+                .Where(x => x.Id == productId)
+                .Select(x => x.Amount)
+                .FirstOrDefaultAsync();
+		}
+
+		public async Task Update(ProductEntity entity)
         {
             await _db.Products
                 .Where(x => x.Id == entity.Id)

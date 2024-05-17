@@ -27,5 +27,6 @@ namespace MarketHub.Domain.Entities
         //public List<ColorEntity> Colors { get; set; } = new();
         public List<SizeEntity> Sizes { get; set; } = new();
         public List<BasketEntityProductEntity> BasketProducts { get; set; } = new();
+        public List<OrderEntityProductEntity> OrdersProducts { get; set; } = new();
     }
 }
