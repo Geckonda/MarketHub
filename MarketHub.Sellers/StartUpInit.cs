@@ -3,6 +3,8 @@ using MarketHub.Domain.Abstractions.Repositories;
 using MarketHub.Domain.Abstractions.Repositories.Bundle;
 using MarketHub.Domain.Abstractions.Repository;
 using MarketHub.Domain.Entities;
+using MarketHub.Sellers.Service.Implementations;
+using MarketHub.Sellers.Service.Interfaces;
 using MarketHub.Service.Implementations;
 using MarketHub.Service.Interfaces;
 
@@ -20,6 +22,7 @@ namespace MarketHub
             services.AddScoped<ISellerItemRepository<SizeEntity>, SizesRepository>();
             services.AddScoped<ISizesRepository, SizesRepository>();
             services.AddScoped<IBaseRepository<SizeEntity>, SizesRepository>();
+            services.AddScoped<IOrderBundleRepository, OrdersRepository>();
 
             //BundleRepositories
             services.AddScoped<IProductBundleRepository, ProductsRepository>();
@@ -30,6 +33,7 @@ namespace MarketHub
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ISubcategoryService, SubcategoryService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
         }
     }
 }

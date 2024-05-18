@@ -53,7 +53,21 @@ namespace MarketHub.DAL.Repositories
                 .ToListAsync();
 		}
 
-		public async Task<OrderEntity?> GetLastCustomerOrder(int customerId)
+        public async Task<List<OrderEntity>?> GetAllSellerOrders(int sellerId)
+        {
+            return await _db.Orders
+                .Include(x => x.OrdersProducts)
+                    .ThenInclude(x => x.Product)
+                .Where(x => x.OrdersProducts
+                    .Select(x => x.SellerId)
+                        .Contains(sellerId))
+                .Include(x => x.OrderStatus)
+                .Include(x => x.Customer)
+                .ToListAsync();
+
+        }
+
+        public async Task<OrderEntity?> GetLastCustomerOrder(int customerId)
 		{
             return await _db.Orders
                 .OrderByDescending(x => x.Id)

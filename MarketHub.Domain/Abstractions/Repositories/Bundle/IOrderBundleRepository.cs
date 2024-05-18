@@ -13,5 +13,6 @@ namespace MarketHub.Domain.Abstractions.Repositories.Bundle
 	{
 		Task<OrderEntity?> GetLastCustomerOrder(int customerId);
 		Task<List<OrderEntity>?> GetAllCustomerOrders(int customerId);
+		Task<List<OrderEntity>?> GetAllSellerOrders(int sellerId);
 	}
 }

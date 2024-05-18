@@ -1,0 +1,46 @@
+﻿@model List<OrderEntity>
+
+<nav aria-label="breadcrumb" class="container">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a asp-action="Index" asp-controller="Home" style="text-decoration: none; color:#000;">Панель продавца</a>
+		</li>
+		<li class="breadcrumb-item active" aria-current="page">
+			Активные заказы
+		</li>
+	</ol>
+</nav>
+<div class="container">
+
+	<h1>Активные заказы</h1>
+	@if(Model.Count == 0)
+	{
+		<h2>В данный момент заказов нет</h2>
+	}
+	<div class="d-flex">
+
+	@foreach(var order in Model)
+	{
+		<div class="card" style="width: 18rem;">
+			<div class="card-body">
+				<h5 class="card-title">Заказ №@order.Id</h5>
+				<p class="card-text">Адресс: @order.Adress</p>
+				<p class="card-text">Телефон: @order.Phone</p>
+				<p class="card-text">Имя покупателя: @order.Customer!.Name</p>
+				<p class="card-text">Сумма заказа: @order.Sum</p>		
+				<ol>
+						@foreach(var product in order.OrdersProducts)
+						{
+							<li>
+								@product.ProductName (@product.SizeName) [@product.Amount]
+							</li>
+						}
+				</ol>
+			
+
+				<a href="#" class="btn btn-primary">Go somewhere</a>
+			</div>
+		</div>
+		}
+	</div>
+</div>

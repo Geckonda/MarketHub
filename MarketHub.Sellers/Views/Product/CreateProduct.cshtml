@@ -12,7 +12,7 @@
             <a asp-action="Index" asp-controller="Home">Панель продавца</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            Добавление товара
+            Добавление товара (@Model.Subcategories!.First().Category!.Name)
         </li>
     </ol>
 </nav>
