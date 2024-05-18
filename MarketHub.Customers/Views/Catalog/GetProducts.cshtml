@@ -83,20 +83,23 @@
             @foreach(var product in Model.Products)
             {
                 var size = product.Sizes.Where(x => x.Amount > 0).FirstOrDefault();
-                <a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@product.Id" asp-route-sizeId="@size!.Id" class="product-card">
-                    @if (product.Img == "")
-                    {
-                        <img src="/img/Default/default.jpg" class="product-card__img" alt="@product.Name">
-                    }
-                    else
-                    {
-                        <img src="@product.Img" class="product-card__img" alt="@product.Name">
-                    }
-                    <div class="product-card__body">
-                        <h5 class="product-card__title">@product.Name</h5>
-                        <p class="product-card__text">@product.Price₽</p>
-                    </div>
-                </a>
+                if(size != null)
+                {
+                    <a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@product.Id" asp-route-sizeId="@size!.Id" class="product-card">
+                        @if (product.Img == "")
+                        {
+                            <img src="/img/Default/default.jpg" class="product-card__img" alt="@product.Name">
+                        }
+                        else
+                        {
+                            <img src="@product.Img" class="product-card__img" alt="@product.Name">
+                        }
+                        <div class="product-card__body">
+                            <h5 class="product-card__title">@product.Name</h5>
+                            <p class="product-card__text">@product.Price₽</p>
+                        </div>
+                    </a>
+                }
             }
         </div>
     </div>

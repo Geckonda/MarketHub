@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace MarketHub.Domain.Entities
         //public List<ColorEntity> Colors { get; set; } = new();
         public List<SizeEntity> Sizes { get; set; } = new();
         public List<BasketEntityProductEntity> BasketProducts { get; set; } = new();
-        public List<OrderEntityProductEntity> OrdersProducts { get; set; } = new();
+		[DeleteBehavior(DeleteBehavior.SetNull)]
+		public List<OrderEntityProductEntity> OrdersProducts { get; set; } = new();
     }
 }

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketHub.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -145,9 +145,10 @@ namespace MarketHub.DAL.Migrations
                     CustomerId = table.Column<int>(type: "integer", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false),
                     Adress = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Phone = table.Column<string>(type: "varchar(11)", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeliveryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    ShelfLife = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DeliveryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)),
+                    ShelfLife = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)),
                     Sum = table.Column<decimal>(type: "money", nullable: false)
                 },
                 constraints: table =>
@@ -246,6 +247,42 @@ namespace MarketHub.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrdersProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    SellerId = table.Column<int>(type: "integer", nullable: false),
+                    SellerName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    SubcategoryId = table.Column<int>(type: "integer", nullable: false),
+                    ProductName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<string>(type: "text", nullable: false),
+                    Img = table.Column<string>(type: "text", nullable: false),
+                    SizeId = table.Column<int>(type: "integer", nullable: false),
+                    SizeName = table.Column<string>(type: "varchar(100)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrdersProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrdersProducts_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrdersProducts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
@@ -335,7 +372,19 @@ namespace MarketHub.DAL.Migrations
                 values: new object[,]
                 {
                     { 1, "Мужская одежда" },
-                    { 2, "Женская одежда" }
+                    { 2, "Женская одежда" },
+                    { 3, "Детская одежда" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OrderStatuses",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Новый" },
+                    { 2, "Отклонен" },
+                    { 3, "В пути" },
+                    { 4, "Доставлен" }
                 });
 
             migrationBuilder.InsertData(
@@ -354,8 +403,19 @@ namespace MarketHub.DAL.Migrations
                 {
                     { 1, 1, "Толстовки, свитшоты и худи" },
                     { 2, 1, "Рубашки" },
-                    { 3, 2, "Платья и сарафаны" },
-                    { 4, 2, "Футболки и топы" }
+                    { 3, 1, "Майки и футболки" },
+                    { 4, 1, "Джинсы и брюки" },
+                    { 5, 1, "Носки" },
+                    { 6, 2, "Платья и сарафаны" },
+                    { 7, 2, "Футболки и топы" },
+                    { 8, 2, "Блузки и рубашки" },
+                    { 9, 2, "Брюки и джинсы" },
+                    { 10, 2, "Толстовки, свитшоты и худи" },
+                    { 11, 3, "Платья и сарафаны" },
+                    { 12, 3, "Блузки и рубашки" },
+                    { 13, 3, "Штанишки" },
+                    { 14, 3, "Футболки и маечки" },
+                    { 15, 3, "Носки" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -417,6 +477,16 @@ namespace MarketHub.DAL.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrdersProducts_OrderId",
+                table: "OrdersProducts",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrdersProducts_ProductId",
+                table: "OrdersProducts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderStatuses_Name",
                 table: "OrderStatuses",
                 column: "Name",
@@ -468,12 +538,6 @@ namespace MarketHub.DAL.Migrations
                 name: "IX_Subcategories_CategoryId",
                 table: "Subcategories",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Subcategories_Name",
-                table: "Subcategories",
-                column: "Name",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -487,6 +551,9 @@ namespace MarketHub.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderEntityProductEntity");
+
+            migrationBuilder.DropTable(
+                name: "OrdersProducts");
 
             migrationBuilder.DropTable(
                 name: "Reviews");

@@ -105,18 +105,15 @@ namespace MarketHub.DAL.Repositories
             var bp = await _db.BasketsProducts
                 .Where(x => productsId
 					.Contains(x.Id))
-                .Select(x => x.ProductId)
-				.ToArrayAsync();
+                .Include(x => x.Product)    
+                .ToListAsync();
+            var basket = await _db.Baskets
+                .Include(b => b.Customer)
+                .FirstAsync();
+            basket.BasketProducts = bp;
+            basket.Products = bp.Select(x => x.Product)!.ToList()!;
 
-            return await _db.Baskets
-			    .Include(b => b.BasketProducts
-                .Where(x => productsId
-					.Contains(x.Id)))
-					.ThenInclude(x => x.Size)
-				.Include(b => b.Customer)
-			    .Include(b => b.Products
-                    .Where(p => bp.Contains(p.Id)))
-                .FirstOrDefaultAsync();
+			return basket;
 		}
 
 		public async Task<BasketEntityProductEntity> GetOneBySizeId(int basketId, int productId, int sizeId)

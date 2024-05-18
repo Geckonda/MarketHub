@@ -1,15 +1,32 @@
 ﻿@model OrderViewModel
-
+@{
+	int sum = 0;
+}
 
 <h1>Текущий заказ</h1>
 <div class="container">
 	<h2>Следующие товары</h2>
-	@foreach(var product in Model.Basket.BasketProducts)
-	{
-		<h3>@product.Product.Name</h3>
-		<p>@product.Product.Price</p>
-		<p>@product.ProductsCount</p>
-		<hr />
-	}
+	<form asp-controller="Order" asp-action="MakeOrder" method="post">
+		<input asp-for="@Model.Adress" type="text" placeholder="Adress" />
+		<input asp-for="@Model.Phone" type="tel" placeholder="Phone" />
 
+		@foreach(var product in Model.Basket.BasketProducts)
+		{
+			<h3>@product.Product.Name</h3>
+			<p>@product.Product.Price</p>
+			<p>@product.ProductsCount</p>
+			<hr />
+
+			{
+				sum = sum + (product.ProductsCount * (int)product.Product.Price);
+			}
+
+			<input name="productsId" type="checkbox" value="@product.ProductId" checked hidden/>
+			<input name="sizesId" type="checkbox" value="@product.SizeId" checked hidden/>
+			<input name="amountsId" type="checkbox" value="@product.ProductsCount" checked hidden/>
+			<input name="basketProductsId" type="checkbox" value="@product.Id" checked hidden />
+		}
+		<input asp-for="@Model.Sum" type="number" value="@sum" hidden/>
+		<input type="submit" value="Заказать" />
+	</form>
 </div>

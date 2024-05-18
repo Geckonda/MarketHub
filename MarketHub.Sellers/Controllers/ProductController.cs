@@ -151,8 +151,8 @@ namespace MarketHub.Controllers
                 //    await imageHelper.DeletePreviousImage(model.Img);
                 //}
                 string path = await imageHelper.SaveImage(fileImg!);
-                return "https://owa.market-hub.ru" + path;
-                //return path;
+                //return "https://owa.market-hub.ru" + path;
+                return path;
             }
             return string.Empty;
         }

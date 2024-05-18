@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketHub.DAL.Migrations
 {
     [DbContext(typeof(MarketHubDbContext))]
-    [Migration("20240421181202_init")]
-    partial class init
+    [Migration("20240517133647_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,11 @@ namespace MarketHub.DAL.Migrations
                         {
                             Id = 2,
                             Name = "Женская одежда"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Детская одежда"
                         });
                 });
 
@@ -185,13 +190,21 @@ namespace MarketHub.DAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DeliveryDate")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("varchar(11)");
+
                     b.Property<DateTime>("ShelfLife")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
@@ -206,6 +219,64 @@ namespace MarketHub.DAL.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("MarketHub.Domain.Entities.OrderEntityProductEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Img")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("SellerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SellerName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("SizeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SizeName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("SubcategoryId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrdersProducts");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.OrderStatusEntity", b =>
@@ -226,6 +297,28 @@ namespace MarketHub.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("OrderStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Новый"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Отклонен"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "В пути"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Доставлен"
+                        });
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.ProductEntity", b =>
@@ -415,9 +508,6 @@ namespace MarketHub.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Subcategories");
 
                     b.HasData(
@@ -436,14 +526,80 @@ namespace MarketHub.DAL.Migrations
                         new
                         {
                             Id = 3,
+                            CategoryId = 1,
+                            Name = "Майки и футболки"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 1,
+                            Name = "Джинсы и брюки"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 1,
+                            Name = "Носки"
+                        },
+                        new
+                        {
+                            Id = 6,
                             CategoryId = 2,
                             Name = "Платья и сарафаны"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 7,
                             CategoryId = 2,
                             Name = "Футболки и топы"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 2,
+                            Name = "Блузки и рубашки"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 2,
+                            Name = "Брюки и джинсы"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 2,
+                            Name = "Толстовки, свитшоты и худи"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 3,
+                            Name = "Платья и сарафаны"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 3,
+                            Name = "Блузки и рубашки"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryId = 3,
+                            Name = "Штанишки"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryId = 3,
+                            Name = "Футболки и маечки"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryId = 3,
+                            Name = "Носки"
                         });
                 });
 
@@ -539,6 +695,25 @@ namespace MarketHub.DAL.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("OrderStatus");
+                });
+
+            modelBuilder.Entity("MarketHub.Domain.Entities.OrderEntityProductEntity", b =>
+                {
+                    b.HasOne("MarketHub.Domain.Entities.OrderEntity", "Order")
+                        .WithMany("OrdersProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MarketHub.Domain.Entities.ProductEntity", "Product")
+                        .WithMany("OrdersProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.ProductEntity", b =>
@@ -646,6 +821,11 @@ namespace MarketHub.DAL.Migrations
                     b.Navigation("Reviews");
                 });
 
+            modelBuilder.Entity("MarketHub.Domain.Entities.OrderEntity", b =>
+                {
+                    b.Navigation("OrdersProducts");
+                });
+
             modelBuilder.Entity("MarketHub.Domain.Entities.OrderStatusEntity", b =>
                 {
                     b.Navigation("Orders");
@@ -654,6 +834,8 @@ namespace MarketHub.DAL.Migrations
             modelBuilder.Entity("MarketHub.Domain.Entities.ProductEntity", b =>
                 {
                     b.Navigation("BasketProducts");
+
+                    b.Navigation("OrdersProducts");
 
                     b.Navigation("Reviews");
 

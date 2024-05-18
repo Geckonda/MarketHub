@@ -22,9 +22,11 @@ namespace MarketHub.DAL.Repositories
 			throw new NotImplementedException();
 		}
 
-		public Task Delete(int id)
+		public async Task Delete(int id)
 		{
-			throw new NotImplementedException();
+			await _db.BasketsProducts
+				.Where(x => x.Id == id)
+				.ExecuteDeleteAsync();
 		}
 
 		public Task<List<BasketEntityProductEntity>?> GetAll()

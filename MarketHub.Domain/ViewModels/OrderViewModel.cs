@@ -10,9 +10,12 @@ namespace MarketHub.Domain.ViewModels
 	public class OrderViewModel
 	{
 		public BasketEntity? Basket { get; set; }
-		public string Adress = string.Empty;
-		public string Phone = string.Empty;
+		public string Adress { get; set; } = string.Empty;
+		public string Phone { get; set; } = string.Empty;
+		public int Sum {  get; set; }
 		public int[] SizesId { get; set; }
 		public int[] ProductsId { get; set; }
+		public int[] AmountsId { get; set; }
+		public int[] basketProductsId { get; set; }
 	}
 }

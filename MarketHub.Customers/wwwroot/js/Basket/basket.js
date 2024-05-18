@@ -5,8 +5,10 @@ const amountLabel = document.getElementById("products-count");
 
 const deleteBtns = document.querySelectorAll(".delete-btn");
 
+const makeOrderBtn = document.getElementById("makeOrderBtn");
 setLabelAmount();
 setLabelSum();
+checkCheckboxes();
 
 function setLabelSum() {
     let sum = 0;
@@ -41,8 +43,21 @@ document.querySelectorAll(".productToBasket").forEach(x => {
     x.addEventListener("change", () => {
         setLabelAmount();
         setLabelSum();
+        checkCheckboxes();
     })
 })
+
+function checkCheckboxes() {
+    let shouldBeDisabled = true;
+    document.querySelectorAll(".productToBasket").forEach(x => {
+        if (x.checked) {
+            shouldBeDisabled = false;
+            return;
+        }
+    });
+    makeOrderBtn.disabled = shouldBeDisabled;
+}
+
 
 minuses.forEach(x => {
     x.addEventListener("click", () => {
@@ -81,6 +96,7 @@ deleteBtns.forEach(x => {
         setLabelAmount();
         setLabelSum();
         deleteProduct(x);
+        checkCheckboxes();
     })
 })
 
@@ -140,3 +156,5 @@ async function deleteProduct(input) {
     });
     return response.json(); // parses JSON response into native JavaScript objects
 }
+
+

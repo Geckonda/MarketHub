@@ -12,5 +12,6 @@ namespace MarketHub.Domain.Abstractions.Repositories.Bundle
 		IBaseRepository<OrderEntity>
 	{
 		Task<OrderEntity?> GetLastCustomerOrder(int customerId);
+		Task<List<OrderEntity>?> GetAllCustomerOrders(int customerId);
 	}
 }

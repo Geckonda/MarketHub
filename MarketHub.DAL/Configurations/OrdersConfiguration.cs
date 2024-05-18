@@ -24,9 +24,13 @@ namespace MarketHub.DAL.Configurations
                 .HasColumnType("money");
             builder.Property(or => or.OrderDate)
                 .IsRequired();
+			builder.Property(or => or.DeliveryDate)
+				.HasDefaultValue(DateTime.MinValue);
+			builder.Property(or => or.ShelfLife)
+				.HasDefaultValue(DateTime.MinValue);
 
 
-            builder
+			builder
                 .HasOne(or => or.Customer)
                 .WithMany(c => c.Orders)
                 .HasForeignKey(or => or.CustomerId);

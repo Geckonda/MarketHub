@@ -35,8 +35,13 @@ namespace MarketHub.DAL.Configurations
 				{
 					Id = 2,
 					Name = "Женская одежда",
-                }
-                );
+                },
+				new CategoryEntity
+				{
+					Id = 3,
+					Name = "Детская одежда",
+				}
+				);
         }
     }
 }

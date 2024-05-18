@@ -60,8 +60,28 @@ namespace MarketHub.Customers.Service.Implementations
 			}
 		}
 
+		public async Task<IBaseResponse<List<OrderEntity>>> GetCustomerOrders(int customerId)
+		{
+			var response = new BaseResponse<List<OrderEntity>>();
+			try
+			{
+				response.Data = await _orderRepository.GetAllCustomerOrders(customerId);
+				response.StatusCode = StatusCode.Ok;
+				return response;
+			}
+			catch (Exception ex)
+			{
+				return new BaseResponse<List<OrderEntity>>()
+				{
+					Description = $"[OrderService | GetCustomerOrders]: {ex.Message}",
+					StatusCode = StatusCode.InternalServerError,
+					ErrorForUser = "Не удалось получить бывшие заказы"
+				};
+			}
+		}
+
 		public async Task<IBaseResponse<bool>> MakeOrder(int customerId, string adress, string phone, int sum,
-			int[] productsId, int[] sizesId, int[] amount)
+			int[] productsId, int[] sizesId, int[] amount, int[] basketProductsId)
 		{
 			var response = new BaseResponse<bool>();
 			try
@@ -81,9 +101,10 @@ namespace MarketHub.Customers.Service.Implementations
 						size.Amount = (uint)potentialAmount;
 						await _sizeRepository.Update(size);
 						await _productRepository.EditProductAmount(productsId[i],
-							product!.Amount - (uint)potentialAmount);
+							product!.Amount - (uint)amount[i]);
 						var orderProduct = BuildOrederProductEntity(order!, product, size, (uint)amount[i]);
 						await _orderProductsRepository.Add(orderProduct);
+						await _basketProductsRepository.Delete(basketProductsId[i]);
 					}
 					else
 					{
@@ -114,12 +135,8 @@ namespace MarketHub.Customers.Service.Implementations
 				Adress = adress,
 				Phone = phone,
 				Sum = sum,
-				OrderDate = DateTime.Now,
-				OrderStatus = new()
-				{
-					Id = 1,
-					Name = "Новый",
-				},
+				OrderDate = DateTime.UtcNow,
+				StatusId = 1
 			};
 		}
 		private OrderEntityProductEntity BuildOrederProductEntity(OrderEntity order,

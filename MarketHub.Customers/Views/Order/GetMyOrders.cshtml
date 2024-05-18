@@ -1,0 +1,38 @@
+﻿@model List<OrderEntity>
+
+<h1>Мои прошлые заказы</h1>
+@if (Model.Count == 0)
+{
+	<h2>Не найдено ни одного заказа</h2>
+}
+@foreach(var order in Model.OrderByDescending(x => x.Id))
+{
+	<div>
+		<h3>Заказ №@order.Id</h3>
+		<p>Статус: @order.OrderStatus!.Name</p>
+		<p>Сумма: @order.Sum</p>
+		<p>Дата заказа: @order.OrderDate</p>
+		<div>
+			<h4>Товары</h4>
+			<div class="accordion" id="accordion-@order.Id">
+				@foreach(var product in order.OrdersProducts)
+				{
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="heading-@product.ProductId-@order.Id-@product.SizeId">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@product.ProductId-@order.Id-@product.SizeId" aria-expanded="false" aria-controls="collapse-@product.ProductId-@order.Id-@product.SizeId">
+								@product.ProductName
+							</button>
+						</h2>
+						<div id="collapse-@product.ProductId-@order.Id-@product.SizeId" class="accordion-collapse collapse" aria-labelledby="heading-@product.ProductId-@order.Id-@product.SizeId" data-bs-parent="#accordion-@order.Id">
+							<div class="accordion-body">
+								<img src="@product.Img" style="width:256px;height:320px;object-fit:cover;" alt="@product.ProductName" />
+								<strong>@product.SizeName</strong> 
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+	<hr />
+}
