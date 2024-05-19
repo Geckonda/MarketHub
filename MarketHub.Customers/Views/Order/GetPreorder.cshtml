@@ -1,32 +1,53 @@
 ﻿@model OrderViewModel
+
 @{
+	ViewData["Title"] = "Оформление заказа";
 	int sum = 0;
 }
-
-<h1>Текущий заказ</h1>
+@section Styles {
+	<link rel="stylesheet" href="~/css/Order/orders.css" asp-append-version="true" />
+}
 <div class="container">
-	<h2>Следующие товары</h2>
-	<form asp-controller="Order" asp-action="MakeOrder" method="post">
-		<input asp-for="@Model.Adress" type="text" placeholder="Adress" />
-		<input asp-for="@Model.Phone" type="tel" placeholder="Phone" />
-
-		@foreach(var product in Model.Basket.BasketProducts)
-		{
-			<h3>@product.Product.Name</h3>
-			<p>@product.Product.Price</p>
-			<p>@product.ProductsCount</p>
-			<hr />
-
+	<h1 class="text-center mt-3 mb-2">Оформление заказа</h1>
+	<form asp-controller="Order" asp-action="MakeOrder" class="preorder" method="post">
+		<div class="preorder__input-container">
+			<label asp-for="@Model.Adress">Адресс</label>
+			<input asp-for="@Model.Adress" type="text" class="preorder__input" required />
+			<label asp-for="@Model.Phone">Номер телефона</label>
+			<input asp-for="@Model.Phone" type="tel" min="11" max="11" class="preorder__input" required />
+		</div>
+		<h2>Ваш заказ</h2>
+		<div class="preorder__product-container">
+			@foreach(var product in Model.Basket!.BasketProducts)
 			{
-				sum = sum + (product.ProductsCount * (int)product.Product.Price);
+				<div class="preorder__product-info">
+					<div>
+						<h3 class="product__name">(@product.Size!.Name) @product.Product!.Name</h3>
+						@if (product.Product!.Img == "")
+						{
+							<img src="~/img/Default/default.jpg" class="product-card__img product__img" alt="@product.Product!.Name">
+						}
+						else
+						{
+							<img src="@product.Product!.Img" class="card-img-top product__img" alt="@product.Product!.Name">
+						}
+					</div>
+					<p style="font-size:50px;">@product.Product.Price ₽</p>
+					<p class="product__amount">@product.ProductsCount</p>
+				</div>
+				<hr />
+				{
+					sum = sum + (product.ProductsCount * (int)product.Product.Price);
+				}
+				<div>
+					<input name="productsId" type="checkbox" value="@product.ProductId" checked hidden/>
+					<input name="sizesId" type="checkbox" value="@product.SizeId" checked hidden/>
+					<input name="amountsId" type="checkbox" value="@product.ProductsCount" checked hidden/>
+					<input name="basketProductsId" type="checkbox" value="@product.Id" checked hidden />
+				</div>
 			}
-
-			<input name="productsId" type="checkbox" value="@product.ProductId" checked hidden/>
-			<input name="sizesId" type="checkbox" value="@product.SizeId" checked hidden/>
-			<input name="amountsId" type="checkbox" value="@product.ProductsCount" checked hidden/>
-			<input name="basketProductsId" type="checkbox" value="@product.Id" checked hidden />
-		}
-		<input asp-for="@Model.Sum" type="number" value="@sum" hidden/>
-		<input type="submit" value="Заказать" />
+		</div>
+		<input asp-for="@Model.Sum" type="number" value="@sum"  hidden />
+		<input type="submit" class="preorder__btn" value="Оформить" />
 	</form>
 </div>

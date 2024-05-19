@@ -36,10 +36,11 @@
             <div class="product__panel">
                 <a asp-controller="Product" asp-action="EditProductSizes" asp-route-id="@product.Id" class="btn">Добавить количество</a>
                 <a asp-controller="Product" asp-action="EditProduct" asp-route-id="@product.Id" class="btn btn-success">Редактировать</a>
-                <form method="post" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@product.Id">
+                @* <form method="post" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@product.Id">
                     <input type="submit" class="btn btn-danger" value="Удалить"/>
-                </form>
+                </form> *@
             </div>
         </div>
+        <hr />
     }
 </div>

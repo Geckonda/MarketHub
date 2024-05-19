@@ -1,0 +1,10 @@
+﻿.market-hub__btn {
+    background: #122d5c;
+    color: #fff;
+    border-radius: 50px;
+    font-size: 14px;
+    padding: 10px 60px;
+}
+.market-hub__btn:hover {
+    color:#aeaeae;
+}

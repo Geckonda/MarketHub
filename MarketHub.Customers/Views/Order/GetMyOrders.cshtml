@@ -1,38 +1,64 @@
 ﻿@model List<OrderEntity>
-
+@{
+	ViewData["Title"] = "Мои заказы";
+}
 <h1>Мои прошлые заказы</h1>
 @if (Model.Count == 0)
 {
 	<h2>Не найдено ни одного заказа</h2>
 }
+<div>
 @foreach(var order in Model.OrderByDescending(x => x.Id))
 {
 	<div>
-		<h3>Заказ №@order.Id</h3>
-		<p>Статус: @order.OrderStatus!.Name</p>
-		<p>Сумма: @order.Sum</p>
+		<h3>Заказ №@order.Id <span class="badge bg-primary">@order.OrderStatus!.Name</span></h3>
 		<p>Дата заказа: @order.OrderDate</p>
+		<p>Сумма: @order.Sum ₽</p>
 		<div>
-			<h4>Товары</h4>
 			<div class="accordion" id="accordion-@order.Id">
-				@foreach(var product in order.OrdersProducts)
-				{
 					<div class="accordion-item">
-						<h2 class="accordion-header" id="heading-@product.ProductId-@order.Id-@product.SizeId">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@product.ProductId-@order.Id-@product.SizeId" aria-expanded="false" aria-controls="collapse-@product.ProductId-@order.Id-@product.SizeId">
-								@product.ProductName
+						<h2 class="accordion-header" id="heading-@order.Id">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@order.Id" aria-expanded="false" aria-controls="collapse-@order.Id">
+								Подробнее
 							</button>
 						</h2>
-						<div id="collapse-@product.ProductId-@order.Id-@product.SizeId" class="accordion-collapse collapse" aria-labelledby="heading-@product.ProductId-@order.Id-@product.SizeId" data-bs-parent="#accordion-@order.Id">
+						<div id="collapse-@order.Id" class="accordion-collapse collapse" aria-labelledby="heading-@order.Id" data-bs-parent="#accordion-@order.Id">
 							<div class="accordion-body">
-								<img src="@product.Img" style="width:256px;height:320px;object-fit:cover;" alt="@product.ProductName" />
-								<strong>@product.SizeName</strong> 
+								<h3>Товары</h3>
+								<div class="d-flex flex-wrap">
+									@foreach (var product in order.OrdersProducts)
+									{
+										<div class="card mb-3" style="width:450px; margin-right:25px;">
+											<div class="row g-0">
+												<div class="col">
+													@if (@product.Img == "")
+													{
+														<img src="~/img/Default/default.jpg" class="product-card__img" style="width:200px; height:240px; object-fit:cover;" alt="@product.ProductName">
+													}
+													else
+													{
+														<img src="@product.Img" class="card-img-top" style="width:200px; height:240px; object-fit:cover;" alt="@product.ProductName">
+													}
+												</div>
+												<div class="col">
+													<div class="card-body">
+														<h5 class="card-title">@product.ProductName</h5>
+														<p class="card-text">Продавец: @product.SellerName</p>
+														<p class="card-text">Количество: @product.Amount</p>
+														<p class="card-text">Цвет: @product.Color</p>
+														<a asp-action="GetProductBySize" asp-controller="Product" asp-route-id="@product.ProductId" asp-route-sizeId="@product.SizeId" style="background: #122d5c;color: #fff;border-radius: 50px;font-size: 14px;padding: 10px 40px;" class="btn">К товару</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									}
+								</div>
 							</div>
 						</div>
 					</div>
-				}
 			</div>
 		</div>
 	</div>
 	<hr />
 }
+</div>

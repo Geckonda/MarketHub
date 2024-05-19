@@ -8,6 +8,7 @@ using MarketHub.Domain.Response;
 using MarketHub.Domain.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -129,13 +130,14 @@ namespace MarketHub.Customers.Service.Implementations
 		private OrderEntity BuildOrderEntity(int customerId, string adress,
 			string phone, int sum)
 		{
+
 			return new OrderEntity()
 			{
 				CustomerId = customerId,
 				Adress = adress,
 				Phone = phone,
 				Sum = sum,
-				OrderDate = DateTime.UtcNow,
+				OrderDate = DateTime.UtcNow.AddHours(3),
 				StatusId = 1
 			};
 		}
@@ -163,10 +165,6 @@ namespace MarketHub.Customers.Service.Implementations
 			return new OrderViewModel()
 			{
 				Basket = entity,
-				//Id = entity.Id,
-				//Customer = entity.Customer,
-				//Products = entity.Products,
-				//BasketProducts = entity.BasketProducts,
 			};
 		}
 	}

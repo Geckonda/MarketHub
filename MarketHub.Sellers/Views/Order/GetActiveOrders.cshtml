@@ -1,5 +1,7 @@
 ﻿@model List<OrderEntity>
-
+@{
+	ViewData["Title"] = "Активные заказы";
+}
 <nav aria-label="breadcrumb" class="container">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">
@@ -17,7 +19,7 @@
 	{
 		<h2>В данный момент заказов нет</h2>
 	}
-	<div class="d-flex">
+	<div class="d-flex g-3 flex-wrap" style="gap: 25px;">
 
 	@foreach(var order in Model)
 	{
@@ -27,7 +29,8 @@
 				<p class="card-text">Адресс: @order.Adress</p>
 				<p class="card-text">Телефон: @order.Phone</p>
 				<p class="card-text">Имя покупателя: @order.Customer!.Name</p>
-				<p class="card-text">Сумма заказа: @order.Sum</p>		
+				<p class="card-text">Сумма заказа: @order.Sum</p>
+				<h6 class="card-title">Товары:</h6>
 				<ol>
 						@foreach(var product in order.OrdersProducts)
 						{
@@ -38,7 +41,7 @@
 				</ol>
 			
 
-				<a href="#" class="btn btn-primary">Go somewhere</a>
+				<a href="#" class="btn market-hub__btn">Ответить</a>
 			</div>
 		</div>
 		}

@@ -105,7 +105,8 @@ namespace MarketHub.DAL.Repositories
             var bp = await _db.BasketsProducts
                 .Where(x => productsId
 					.Contains(x.Id))
-                .Include(x => x.Product)    
+                .Include(x => x.Product)
+                .Include(x => x.Size)
                 .ToListAsync();
             var basket = await _db.Baskets
                 .Include(b => b.Customer)
